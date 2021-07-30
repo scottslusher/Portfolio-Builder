@@ -1,6 +1,6 @@
 # Portfolio Builder
 
-![](Images/readme_images.png)
+![](Images/readme_image.png)
 
 ## User Story
 As a Retail Investor, 

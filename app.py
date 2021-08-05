@@ -16,7 +16,7 @@ import numpy as np
 def sector_interest(sectors_1, sectors_2, sectors_3, url, sp500_html, sp500_df, sp500_all_sectors_df):
 
     # Print welcome message and short description of what the program will output.
-    print("\n................Welcome to the sector portfolio builder................................\n")
+    print("\n................**Welcome to the Sector Portfolio Builder!**................................\n")
     print("Based on the three sectors you choose, the program will calculate the optimal portoflio\n")
     print("of stocks within the three sectors including weights of each. After optimal portfolio is\n")
     print("calculated, data points for rolling 1-year, 3-year, 5-year and 10-year returns as well\n")
@@ -49,6 +49,7 @@ def sector_interest(sectors_1, sectors_2, sectors_3, url, sp500_html, sp500_df, 
     sectors_1 = sp500_all_sectors_df['GICS Sector'].drop_duplicates().to_list()
     sectors_2 = sp500_all_sectors_df['GICS Sector'].drop_duplicates().to_list()
     sectors_3 = sp500_all_sectors_df['GICS Sector'].drop_duplicates().to_list()
+
 
 # The __main__ loop of the application.
 # It is the entry point for the program.

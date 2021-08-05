@@ -13,7 +13,7 @@ import numpy as np
 
 # Create a function called `sector_interest` that will be the application report.
 # This function will be called from the __main__ loop.
-def sector_interest(sectors, url, sp500_html, sp500_df, sp500_all_sectors_df):
+def sector_interest(sectors_1, sectors_2, sectors_3, url, sp500_html, sp500_df, sp500_all_sectors_df):
 
     # Print welcome message and short description of what the program will output.
     print("\n................Welcome to the sector portfolio builder................................\n")
@@ -23,8 +23,10 @@ def sector_interest(sectors, url, sp500_html, sp500_df, sp500_all_sectors_df):
     print("as expected returns, volatility and sharpe ratio's.")
 
     print("\n.......................................................................................\n")
-    # Using questionary, select 3 sectors
-    sectors = questionary.select("Which 3 sectors are you interested in?", choices=sectors).ask()
+    # Using questionary, select 1st sector
+    sectors_1 = questionary.select("What is the 1st sector your interested in?", choices=sectors_1).ask()
+    sectors_2 = questionary.select("What is the 2nd sector your interested in?", choices=sectors_2).ask()
+    sectors_3 = questionary.select("What is the 3rd sector your interested in?", choices=sectors_3).ask()
     print("\n.......................................................................................\n")
 
     print(".........................pulling data...........please wait..............................\n")
@@ -44,8 +46,9 @@ def sector_interest(sectors, url, sp500_html, sp500_df, sp500_all_sectors_df):
         columns=['GICS Sector', 'Symbol'],
         data=sp500_df)
     # Create list of sectors in the S&P 500
-    sectors = sp500_all_sectors_df['GICS Sector'].drop_duplicates().to_list()
-
+    sectors_1 = sp500_all_sectors_df['GICS Sector'].drop_duplicates().to_list()
+    sectors_2 = sp500_all_sectors_df['GICS Sector'].drop_duplicates().to_list()
+    sectors_3 = sp500_all_sectors_df['GICS Sector'].drop_duplicates().to_list()
 
 # The __main__ loop of the application.
 # It is the entry point for the program.
@@ -62,8 +65,13 @@ if __name__ == "__main__":
     sp500_all_sectors_df = pd.DataFrame(
         columns=['GICS Sector', 'Symbol'],
         data=sp500_df)
-    sectors = sp500_all_sectors_df['GICS Sector'].drop_duplicates().to_list()
-    sectors = sectors
+    sectors_1 = sp500_all_sectors_df['GICS Sector'].drop_duplicates().to_list()
+    sectors_2 = sp500_all_sectors_df['GICS Sector'].drop_duplicates().to_list()
+    sectors_3 = sp500_all_sectors_df['GICS Sector'].drop_duplicates().to_list()
+    sectors_1 = sectors_1
+    sectors_2 = sectors_2
+    sectors_3 = sectors_3
+
 
     # Create a variable named running and set it to True
     running = True
@@ -71,7 +79,7 @@ if __name__ == "__main__":
     # While running is `True` call the `sector_interest` function.
     # Pass the `nyse_df` DataFrame `sectors` and the database `engine` as parameters.
     while running:
-        continue_running = sector_interest(sectors, url, sp500_html, sp500_df, sp500_all_sectors_df)
+        continue_running = sector_interest(sectors_1, sectors_2, sectors_3, url, sp500_html, sp500_df, sp500_all_sectors_df)
         if continue_running == 'y':
             running = True
         else:

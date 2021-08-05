@@ -10,6 +10,12 @@ from pathlib import Path
 import csv
 import requests
 import numpy as np
+import matplotlib.pyplot as plt
+import scipy.optimize as optimization
+import datetime as dt
+from datetime import date
+from MCForecastTools import MCSimulation
+
 
 # Create a function called `sector_interest` that will be the application report.
 # This function will be called from the __main__ loop.
@@ -51,14 +57,15 @@ def sector_interest(sectors_1, sectors_2, sectors_3, url, sp500_html, sp500_df, 
     sectors_3 = sp500_all_sectors_df['GICS Sector'].drop_duplicates().to_list()
 
 
+
 # The __main__ loop of the application.
 # It is the entry point for the program.
 if __name__ == "__main__":
 
 
-    # Get a list of the sector names from the `nyse_df` DataFrame
-    # Be sure to drop n/a values and capture only unique values.
-    # You will use this list of sector names for the user options in the report.
+    # Get a list of the sector names from the wiki html
+    # Be sure to drop duplicate values and capture only unique values.
+    # You will use this list of sector names for the user options in the program.
     url = 'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies'
     sp500_html = pd.read_html(url)
     sp500_html = sp500_html[0]
@@ -72,11 +79,8 @@ if __name__ == "__main__":
     sectors_1 = sectors_1
     sectors_2 = sectors_2
     sectors_3 = sectors_3
-
-
     # Create a variable named running and set it to True
     running = True
-
     # While running is `True` call the `sector_interest` function.
     # Pass the `nyse_df` DataFrame `sectors` and the database `engine` as parameters.
     while running:

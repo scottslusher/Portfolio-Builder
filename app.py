@@ -14,7 +14,10 @@ import matplotlib.pyplot as plt
 import scipy.optimize as optimization
 import datetime as dt
 from datetime import date
-from MCForecastTools import MCSimulation
+# from MCForecastTools import MCSimulation
+
+# importing sector lists of stocks from 'sector_stock_lists' folder
+from sector_stock_lists import industrials_list
 
 
 # Create a function called `sector_interest` that will be the application report.
@@ -55,6 +58,7 @@ def sector_interest(sectors_1, sectors_2, sectors_3, url, sp500_html, sp500_df, 
     sectors_1 = sp500_all_sectors_df['GICS Sector'].drop_duplicates().to_list()
     sectors_2 = sp500_all_sectors_df['GICS Sector'].drop_duplicates().to_list()
     sectors_3 = sp500_all_sectors_df['GICS Sector'].drop_duplicates().to_list()
+
 
 
 

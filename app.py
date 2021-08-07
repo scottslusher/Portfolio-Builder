@@ -8,6 +8,7 @@ import questionary
 import yfinance as yf
 from pathlib import Path
 import csv
+import fire
 import requests
 import numpy as np
 import matplotlib.pyplot as plt
@@ -17,7 +18,7 @@ from datetime import date
 # from MCForecastTools import MCSimulation
 
 # importing sector lists of stocks from 'sector_stock_lists' folder
-from sector_stock_lists import industrials_list
+from sector_stock_lists.industrials_list import top_5_industrial_stocks_by_marketcap
 
 
 # Create a function called `sector_interest` that will be the application report.
@@ -59,14 +60,21 @@ def sector_interest(sectors_1, sectors_2, sectors_3, url, sp500_html, sp500_df, 
     sectors_2 = sp500_all_sectors_df['GICS Sector'].drop_duplicates().to_list()
     sectors_3 = sp500_all_sectors_df['GICS Sector'].drop_duplicates().to_list()
 
+############ Have not yet inputted to run() and currently putting this code into each py file for each sector. 
+############ NEED ADVICE ON THIS ONE.
+# The following code pulls the list from the csv file and is in every sector list.
+#    sp500_w_marketcap = pd.read_csv(Path("../Resources/stock_industry_marketcap.csv"))
+#    sp500_w_marketcap = sp500_w_marketcap.set_index("GICS Sector")
+# is it worth making a variable?
+def data_filter_by_sector():
+    # This reads the csv and sets the index to GICS Sector
+    sp500_w_marketcap = pd.read_csv(Path("../Resources/stock_industry_marketcap.csv"))
+    sp500_w_marketcap = sp500_w_marketcap.set_index("GICS Sector")
 
 
-
-# The __main__ loop of the application.
-# It is the entry point for the program.
-if __name__ == "__main__":
-
-
+def run():
+    
+    """The main function for running the script"""
     # Get a list of the sector names from the wiki html
     # Be sure to drop duplicate values and capture only unique values.
     # You will use this list of sector names for the user options in the program.
@@ -86,10 +94,16 @@ if __name__ == "__main__":
     # Create a variable named running and set it to True
     running = True
     # While running is `True` call the `sector_interest` function.
-    # Pass the `nyse_df` DataFrame `sectors` and the database `engine` as parameters.
     while running:
         continue_running = sector_interest(sectors_1, sectors_2, sectors_3, url, sp500_html, sp500_df, sp500_all_sectors_df)
         if continue_running == 'y':
             running = True
         else:
             running = False
+
+    
+
+# The __main__ loop of the application.
+# It is the entry point for the program.
+if __name__ == "__main__":
+    run()

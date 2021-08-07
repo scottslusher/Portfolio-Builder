@@ -29,7 +29,7 @@ class MCSimulation:
         
     """
     
-    def __init__(self, portfolio_data, weights="", num_simulation=1000, num_trading_days=252):
+    def __init__(self, portfolio_data, weights, num_simulation=1000, num_trading_days=252):
         """
         Constructs all the necessary attributes for the MCSimulation object.
 
@@ -92,7 +92,7 @@ class MCSimulation:
         # Run the simulation of projecting stock prices 'nSim' number of times
         for n in range(self.nSim):
         
-            if n % 10 == 0:
+            if n % 100 == 0:
                 print(f"Running Monte Carlo simulation number {n}.")
         
             # Create a list of lists to contain the simulated values for each stock
@@ -135,8 +135,8 @@ class MCSimulation:
             self.calc_cumulative_return()
             
         # Use Pandas plot function to plot the return data
-        plot_title = f"{self.nSim} Simulations of Cumulative Portfolio Return Trajectories Over the Next {self.nTrading} Trading Days."
-        return self.simulated_return.plot(legend=None,title=plot_title)
+        plot_title = f"{self.nSim} Simulations of Cumulative Portfolio Return Trajectories Over the Next {self.nTrading / 252} Years."
+        return self.simulated_return.plot(figsize=(20,10),legend=None,title=plot_title)
     
     def plot_distribution(self):
         """
@@ -150,7 +150,7 @@ class MCSimulation:
         
         # Use the `plot` function to create a probability distribution histogram of simulated ending prices
         # with markings for a 95% confidence interval
-        plot_title = f"Distribution of Final Cumuluative Returns Across All {self.nSim} Simulations"
+        plot_title = f"Distribution of Final Cumulative Returns Across All {self.nSim} Simulations"
         plt = self.simulated_return.iloc[-1, :].plot(kind='hist', bins=10,density=True,title=plot_title)
         plt.axvline(self.confidence_interval.iloc[0], color='r')
         plt.axvline(self.confidence_interval.iloc[1], color='r')

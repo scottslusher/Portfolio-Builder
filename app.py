@@ -22,17 +22,14 @@ from sector_stock_lists.industrials_list import top_5_industrial_stocks_by_marke
 
 # def sector_return_1_rolling_year ################################################
 
-def sectors(): #CHANGE URL TO PULLING FROM CSV
-    url = 'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies'
-    sp500_html = pd.read_html(url)
-    sp500_html = sp500_html[0]
-    sp500_df = pd.DataFrame(sp500_html)
-    sp500_all_sectors_df = pd.DataFrame(
-        columns=['GICS Sector', 'Symbol'],
-        data=sp500_df)
-    sectors_1 = sp500_all_sectors_df['GICS Sector'].drop_duplicates().to_list() #POSSIBLE ACTION: dropping the sector that
-    sectors_2 = sp500_all_sectors_df['GICS Sector'].drop_duplicates().to_list() # was chosen in the previous function.
-    sectors_3 = sp500_all_sectors_df['GICS Sector'].drop_duplicates().to_list() 
+def sectors():
+    csvpath = Path("./resources/stock_industry_marketcap.csv")
+    sp500_csv = pd.read_csv(csvpath)
+    sector = "GICS Sector"
+    sp500_sectors = sp500_csv[sector].drop_duplicates().to_list()
+    sectors_1 = sp500_sectors #POSSIBLE ACTION: dropping the sector that
+    sectors_2 = sp500_sectors
+    sectors_3 = sp500_sectors 
     return sectors_1, sectors_2, sectors_3
 
 # Create a function called `sector_interest` that will be the application report.

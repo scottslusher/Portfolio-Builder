@@ -22,7 +22,7 @@ from sector_stock_lists.industrials_list import top_5_industrial_stocks_by_marke
 
 # def sector_return_1_rolling_year ################################################
 
-def sectors():
+def sectors(): 
     csvpath = Path("./resources/stock_industry_marketcap.csv")
     sp500_csv = pd.read_csv(csvpath)
     sector = "GICS Sector"
@@ -54,16 +54,42 @@ def sector_interest(sectors_1, sectors_2, sectors_3):
 
     return np.array([sectors_1, sectors_2, sectors_3])
 
+# This function sorts the stocks in the sp500 by marketcap in descending order with sector as index
+def stocks(sp500_csv):
+    # csvpath = Path("../resources/stock_industry_marketcap.csv")
+    # sp500_csv = pd.read_csv(csvpath)
+    sp500_stocks_sorted = sp500_csv.set_index("GICS Sector").sort_values("Market_Cap", ascending=False)
+    return sp500_stocks_sorted
+
+#################################################################################################################
+# TESTING PHASE FOR-LOOP TO ADD SYMBOLS INTO SECTORS_1
+# def stocks_in_sector(sectors_1, sectors_2, sectors_3):
+#     csvpath = Path("./resources/stock_industry_marketcap.csv")
+#     stocks = []
+#     with open(csvpath, newline='') as csvfile:
+#         rows = csv.reader(csvfile)
+#         header = next(rows)
+#         for row in rows:
+#             gics_sector = float(rows[1])
+#             symbol = float(rows[0])
+#             marketcap = int(rows[2]).set_index("Market_Cap").sort_values(by="Market_Cap", ascending=False).iloc[0:5]
+#             stocks = {
+#                 # "GICS Sector": gics_sector,
+#                 "Symbol":symbol,
+#                 "Market_Cap":marketcap
+#             }
+#             if gics_sector == sectors_1:
+#                 symbol.append(stocks)
+#             if gics_sector == sectors_2:
+#                 symbol.append(stocks)
+#             if gics_sector == sectors_3:
+#                 symbol.append(stocks)
+#             return stocks
+#################################################################################################################
+
 # def sector_interest_list()
 
 # def initial_investment()
-
-
-
-# The following code pulls the list from the csv file and is in every sector list.
-#    sp500_w_marketcap = pd.read_csv(Path("../Resources/stock_industry_marketcap.csv"))
-#    sp500_w_marketcap = sp500_w_marketcap.set_index("GICS Sector")
-# is it worth making a variable?
 
 
 def data_filter_by_sector():
@@ -85,7 +111,10 @@ def run():
     
     # STEP 3: runs the sector_interest function
     sector_interest(sectors_1, sectors_2, sectors_3)
-    
+
+    # STEP 4: inputs top 5 stocks by marketcap into sector_interest
+    # stocks_in_sector(sectors_1, sectors_2, sectors_3)
+
     # list of stocks as variable to pass to markowitz model
 
     # value as initial investment

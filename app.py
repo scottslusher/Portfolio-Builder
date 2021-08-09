@@ -59,7 +59,50 @@ def stocks(sp500_csv):
     sp500_stocks_sorted = sp500_csv.set_index("GICS Sector").sort_values("Market_Cap", ascending=False)
     return sp500_stocks_sorted
 
+#### TESTING ######
+def chosen_sectors(sp500_stocks_sorted, sectors_1, sectors_2, sectors_3):
+    # Slices the lists into sector variables containing the top 5 stocks by marketcap
 
+    industrials = sp500_stocks_sorted.loc["Industrials"].sort_values(by="Market_Cap", ascending=False).iloc[0:5]
+    health_care = sp500_stocks_sorted.loc["Health Care"].sort_values(by="Market_Cap", ascending=False).iloc[0:5]
+    information_technology = sp500_stocks_sorted.loc["Information Technology"].sort_values(by="Market_Cap", ascending=False).iloc[0:5]
+    communication_services = sp500_stocks_sorted.loc["Communication Services"].sort_values(by="Market_Cap", ascending=False).iloc[0:5]
+    consumer_discretionary = sp500_stocks_sorted.loc["Consumer Discretionary"].sort_values(by="Market_Cap", ascending=False).iloc[0:5]
+    utilities = sp500_stocks_sorted.loc["Utilities"].sort_values(by="Market_Cap", ascending=False).iloc[0:5]
+    financials = sp500_stocks_sorted.loc["Financials"].sort_values(by="Market_Cap", ascending=False).iloc[0:5]
+    materials = sp500_stocks_sorted.loc["Materials"].sort_values(by="Market_Cap", ascending=False).iloc[0:5]
+    real_estate = sp500_stocks_sorted.loc["Real Estate"].sort_values(by="Market_Cap", ascending=False).iloc[0:5]
+    consumer_staples = sp500_stocks_sorted.loc["Consumer Staples"].sort_values(by="Market_Cap", ascending=False).iloc[0:5]
+    energy = sp500_stocks_sorted.loc["Energy"].sort_values(by="Market_Cap", ascending=False).iloc[0:5]
+    
+    rows = csv.reader(sp500_stocks_sorted)
+    header = next(rows)
+    sector = sectors_1, sectors_2, sectors_3
+    for sector in sector_interest:
+        if sector == industrials:
+            return list(industrials["Symbol"])
+        elif sector == health_care:
+            return list(health_care["Symbol"])
+        elif sector == information_technology:
+            return list(information_technology["Symbol"])
+        elif sector == communication_services:
+            return list(communication_services["Symbol"])
+        elif sector == consumer_discretionary:
+            return list(consumer_discretionary["Symbol"])
+        elif sector == utilities:
+            return list(utilities["Symbol"])
+        elif sector == financials:
+            return list(financials["Symbol"])
+        elif sector == materials:
+            return list(materials["Symbol"])
+        elif sector == real_estate:
+            return list(real_estate["Symbol"])
+        elif sector == consumer_staples:
+            return list(consumer_staples["Symbol"])
+        elif sector == energy:
+            return list(energy["Symbol"])
+        else:
+            return print("Unable to pick stocks.")
 
 
 

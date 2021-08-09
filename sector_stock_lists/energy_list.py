@@ -14,3 +14,4 @@ def top_5_energy_stocks_by_marketcap(sp500_w_marketcap, energy, energy_top_5):
     energy = sp500_w_marketcap.loc["Energy"]
     energy_top_5 = energy.set_index("Market_Cap").sort_values(by="Market_Cap", ascending=False).iloc[0:5]
     energy_list = energy_top_5.values.tolist()
+    return energy_list

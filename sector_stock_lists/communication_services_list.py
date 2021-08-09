@@ -14,3 +14,4 @@ def top_5_communicatoin_services_stocks_by_marketcap(sp500_w_marketcap, communic
     communication_services = sp500_w_marketcap.loc["Communication Services"]
     communication_services_top_5 = communication_services.set_index("Market_Cap").sort_values(by="Market_Cap", ascending=False).iloc[0:5]
     communication_services_list = communication_services_top_5.values.tolist()
+    return communication_services_list

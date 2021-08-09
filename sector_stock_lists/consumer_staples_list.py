@@ -14,3 +14,4 @@ def top_5_consumer_staples_stocks_by_marketcap(sp500_w_marketcap, consumer_stapl
     consumer_staples = sp500_w_marketcap.loc["Consumer Staples"]
     consumer_staples_top_5 = consumer_staples.set_index("Market_Cap").sort_values(by="Market_Cap", ascending=False).iloc[0:5]
     consumer_staples_list = consumer_staples_top_5.values.tolist()
+    return consumer_staples_list

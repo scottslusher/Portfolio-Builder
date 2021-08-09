@@ -14,3 +14,4 @@ def top_5_utilities_stocks_by_marketcap(sp500_w_marketcap, utilities, utilities_
     utilities = sp500_w_marketcap.loc["Utilities"]
     utilities_top_5 = utilities.set_index("Market_Cap").sort_values(by="Market_Cap", ascending=False).iloc[0:5]
     utilities_list = utilities_top_5.values.tolist()
+    return utilities_list

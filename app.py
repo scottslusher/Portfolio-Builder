@@ -61,8 +61,8 @@ def stocks(sp500_csv):
     sp500_stocks_sorted = sp500_csv.set_index("GICS Sector").sort_values("Market_Cap", ascending=False)
     return sp500_stocks_sorted
 
-#################################################################################################################
-# TESTING PHASE FOR-LOOP TO ADD SYMBOLS INTO SECTORS_1
+################################################################################################################
+# # TESTING PHASE FOR-LOOP TO ADD SYMBOLS INTO SECTORS_1
 # def stocks_in_sector(sectors_1, sectors_2, sectors_3):
 #     csvpath = Path("./resources/stock_industry_marketcap.csv")
 #     stocks = []
@@ -85,7 +85,7 @@ def stocks(sp500_csv):
 #             if gics_sector == sectors_3:
 #                 symbol.append(stocks)
 #             return stocks
-#################################################################################################################
+################################################################################################################
 
 # def sector_interest_list()
 

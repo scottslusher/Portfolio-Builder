@@ -14,3 +14,4 @@ def top_5_real_estate_stocks_by_marketcap(sp500_w_marketcap, real_estate, real_e
     real_estate = sp500_w_marketcap.loc["Real Estate"]
     real_estate_top_5 = real_estate.set_index("Market_Cap").sort_values(by="Market_Cap", ascending=False).iloc[0:5]
     real_estate_list = real_estate_top_5.values.tolist()
+    return real_estate_list

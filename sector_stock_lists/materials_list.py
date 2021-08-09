@@ -14,3 +14,4 @@ def top_5_materials_stocks_by_marketcap(sp500_w_marketcap, materials, materials_
     materials = sp500_w_marketcap.loc["Materials"]
     materials_top_5 = materials.set_index("Market_Cap").sort_values(by="Market_Cap", ascending=False).iloc[0:5]
     materials_list = materials_top_5.values.tolist()
+    return materials_list

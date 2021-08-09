@@ -14,3 +14,4 @@ def top_5_health_care_stocks_by_marketcap(sp500_w_marketcap, health_care, health
     health_care = sp500_w_marketcap.loc["Health Care"]
     health_care_top_5 = health_care.set_index("Market_Cap").sort_values(by="Market_Cap", ascending=False).iloc[0:5]
     health_care_list = health_care_top_5.values.tolist()
+    return health_care_list

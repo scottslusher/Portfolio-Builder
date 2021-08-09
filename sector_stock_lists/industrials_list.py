@@ -14,5 +14,6 @@ def top_5_industrial_stocks_by_marketcap(sp500_w_marketcap, industrials, industr
     industrials = sp500_w_marketcap.loc["Industrials"]
     industrials_top_5 = industrials.set_index("Market_Cap").sort_values(by="Market_Cap", ascending=False).iloc[0:5]
     industrials_list = industrials_top_5.values.tolist()
+    return industrials_list
 
 

@@ -14,3 +14,4 @@ def consumer_discretionary_top_5_stocks_by_marketcap(sp500_w_marketcap, consumer
     consumer_discretionary = sp500_w_marketcap.loc["Consumer Discretionary"]
     consumer_discretionary_top_5 = consumer_discretionary.set_index("Market_Cap").sort_values(by="Market_Cap", ascending=False).iloc[0:5]
     consumer_discretionary_list = consumer_discretionary_top_5.values.tolist()
+    return consumer_discretionary_list

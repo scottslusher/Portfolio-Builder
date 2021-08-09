@@ -209,7 +209,7 @@ def clean_df_monte_carlo(dataset, daily_returns):
     return pd.DataFrame(joined_df_columns)
 
 
-def monte_carlo(dataset, optimum, investment):
+def monte_carlo(stocks, dataset, optimum, investment):
     num_trading_days = 252
     # Configure the Monte Carlo simulation to forecast 30 years cumulative returns
     # The weights should be split 40% to AGG and 60% to SPY.

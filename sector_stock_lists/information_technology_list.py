@@ -14,3 +14,4 @@ def top_5_information_technology_stocks_by_marketcap(sp500_w_marketcap, informat
     information_technology = sp500_w_marketcap.loc["Information Technology"]
     information_technology_top_5 = information_technology.set_index("Market_Cap").sort_values(by="Market_Cap", ascending=False).iloc[0:5]
     information_technology_list = information_technology_top_5.values.tolist()
+    return information_technology_list

@@ -48,11 +48,15 @@ def sector_interest(sectors_1, sectors_2, sectors_3):
     sectors_1 = questionary.select("What is the 1st sector your interested in?", choices=sectors_1).ask()
     sectors_2 = questionary.select("What is the 2nd sector your interested in?", choices=sectors_2).ask()
     sectors_3 = questionary.select("What is the 3rd sector your interested in?", choices=sectors_3).ask()
+    
+    return np.array([sectors_1, sectors_2, sectors_3])
+
+def investment_question():
+    investment = questionary.text("How much money would you like to invest?").ask()
     print("\n.......................................................................................\n")
 
     print(".........................pulling data...........please wait..............................\n")
-
-    return np.array([sectors_1, sectors_2, sectors_3])
+    return int(investment)
 
 # This function sorts the stocks in the sp500 by marketcap in descending order with sector as index
 def stocks(sp500_csv):

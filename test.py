@@ -1,4 +1,5 @@
 import numpy as np
+import questionary
 # import yahoo finance to pull stock and crypto data from
 import yfinance as yf
 import pandas as pd
@@ -25,17 +26,17 @@ from workflow.Markowitz_Model import (
 
 from app import (
     sectors,
-    sector_interest
+    sector_interest,
+    investment_question
 )
 
-
-if __name__ == '__main__':
-    sectors_1, sectors_2, sectors_3 = sectors()
+def build_portfolio():
+    sectors_1, sectors_2, sectors_3=sectors()
 
     sector_interest(sectors_1, sectors_2, sectors_3)
-  # value as initial investment
+    # value as initial investment
     # this is a parameter passed from questionary
-    investment = 20000
+    investment = investment_question()
 
     # these are variables selected by user and passed to the "download_data()" function
     stocks  = ['AAPL', 'AMZN', 'GOOG', 'TSLA'] #stock_generator(sectors_1, sectors_2, sectors_3)
@@ -43,7 +44,7 @@ if __name__ == '__main__':
     # download_data() returns a dataframe called "dataset" that will be passed to the following functions:
     # calculate_log_return(), show_data(), calculate_return(), clean_df_monte_carlo()
     dataset = download_data(stocks)
-    
+
     # calculate_log_return() takes the dataset variable and creates the log returns to the following functions:
     # generate_portfolio(), optimize_portfolio(), print_optimal_portfolio_dataframe(), show_optimal_portfolio()
     # calculate_log_return() is used to NORMALIZE the dataset
@@ -69,11 +70,11 @@ if __name__ == '__main__':
     daily_return = calculate_return(dataset)
 
     # clean_df_monte_carlo() takes 2 dataframes (dataset, daily_returns) and combines them together to be passed to the monte_carlo()
-    clean_df_monte_carlo = clean_df_monte_carlo(dataset, daily_return)
+    clean_df_mc = clean_df_monte_carlo(dataset, daily_return)
 
     # monte_carlo() runs the simulation to project the 95% confidence level of the value of the portfolio based on weight allocations
     # it returns a variable of MC_Stocks to pass to the plot functions down range
-    MC_Stocks = monte_carlo(clean_df_monte_carlo, optimum, investment)
+    MC_Stocks = monte_carlo(stocks, clean_df_mc, optimum, investment)
 
     # this function graphs the simulation to generate the optimum weights and places a red star on the weights selected
     print(show_optimal_portfolio(stocks, optimum, log_daily_returns, means, risks))
@@ -86,3 +87,20 @@ if __name__ == '__main__':
 
     # this plots the 95% confidence levels of the monte_carlo()
     print(mc_dist_plot(MC_Stocks))
+
+    run_again = "Would you like to build another portfolio?"
+    continue_running = questionary.select(run_again, choices=['y', 'n']).ask()
+
+    return continue_running
+
+
+
+if __name__ == '__main__':
+    running = True
+
+    while running:
+        continue_running = build_portfolio()
+        if continue_running == 'y':
+            running = True
+        else:
+            running = False

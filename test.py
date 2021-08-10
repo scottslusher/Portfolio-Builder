@@ -28,15 +28,15 @@ from app import (
     sectors,
     sector_interest,
     investment_question,
-    stock_generator
+    generate_tickers
 )
 
 def build_portfolio():
     sectors_1, sectors_2, sectors_3=sectors()
 
-    sectors = sector_interest(sectors_1, sectors_2, sectors_3)
+    sectors_selected = sector_interest(sectors_1, sectors_2, sectors_3)
 
-    stocks = stock_generator(sectors)
+    stocks = generate_tickers(sectors_selected)
 
     # value as initial investment
     # this is a parameter passed from questionary
@@ -81,7 +81,7 @@ def build_portfolio():
     MC_Stocks = monte_carlo(stocks, clean_df_mc, optimum, investment)
 
     # this function graphs the simulation to generate the optimum weights and places a red star on the weights selected
-    print(show_optimal_portfolio(stocks, optimum, log_daily_returns, means, risks))
+    print(show_optimal_portfolio(stocks, optimum, log_daily_returns, means, risks, sectors_selected))
 
     # this function returns a graph of historical price action based on 10 years of data
     print(show_data(dataset))

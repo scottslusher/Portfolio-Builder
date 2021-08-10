@@ -54,23 +54,23 @@ def download_data(stocks):
         # fetch data by interval (including intraday if period < 60 days)
         # valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
         # (optional, default is '1d')
-        interval = '1d'
+        interval = '1d',
 
         # adjust all OHLC automatically
         # (optional, default is False)
-        # auto_adjust = True
+        auto_adjust = True,
 
         # download pre/post regular market hours data
         # (optional, default is False)
-        # prepost = True
+        prepost = True,
 
         # use threads for mass downloading? (True/False/Integre)
         # (optional, default is True)
-        # threads = True
+        threads = True,
 
         # proxy URL scheme use use when downloading?
         # (optional, default is None)
-        # proxy = None
+        proxy = None
     )['Close']
 
     return pd.DataFrame(stock_data)
@@ -176,13 +176,13 @@ def print_optimal_portfolio_dataframe(stocks, optimum, returns):
     print(optimal_portfolio_weights_df)
 
 
-def show_optimal_portfolio(stocks, opt, rets, portfolio_rets, portfolio_vols):
+def show_optimal_portfolio(stocks, opt, rets, portfolio_rets, portfolio_vols, sectors_selected):
     plt.figure(figsize=(20,10))
     plt.style.use(['dark_background'])
     plt.scatter(portfolio_vols, portfolio_rets, c=portfolio_rets/portfolio_vols, marker='o')
     plt.grid(True)
     plt.rcParams.update({'font.size': 18})
-    plt.title(f"Modern Portfolio Theory for {stocks}")
+    plt.title(f"Modern Portfolio Theory for {sectors_selected} Sectors by Top 5 Market Cap")
     plt.xlabel("Expected Volatility")
     plt.ylabel("Expected Return")
     plt.colorbar(label='Sharpe Ratio')

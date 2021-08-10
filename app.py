@@ -77,3 +77,57 @@ def investment_question():
     print(".........................pulling data...........please wait..............................\n")
     return int(investment)
 
+def generate_tickers(sectors):
+    # Create a database connection string that links an in-memory database
+    database_connection_string = 'sqlite:///stock_industry_top5.db'
+
+    # Database connection object
+    engine = sql.create_engine(database_connection_string)
+
+    # Confirm the engine was created
+    engine
+    
+    stocks_df = pd.read_csv(
+    Path('resources/stock_industry_marketcap.csv')
+    )
+
+    stocks_df.to_sql('stock_industry_marketcap', engine, index=False, if_exists='replace')
+
+    sql_stock_df = pd.read_sql_table('stock_industry_marketcap', con=engine)
+   
+    l1 = sectors[0]
+    top5_1 = f"""
+    SELECT Symbol
+    FROM stock_industry_marketcap
+    WHERE `GICS Sector` = '{l1}'
+    ORDER BY Market_Cap DESC
+    LIMIT 5
+    """
+    results_1 = engine.execute(top5_1)
+    data_1 = pd.DataFrame(results_1)
+
+    l2 = sectors[1]
+    top5_2 = f"""
+    SELECT Symbol
+    FROM stock_industry_marketcap
+    WHERE `GICS Sector` = '{l2}'
+    ORDER BY Market_Cap DESC
+    LIMIT 5
+    """
+    results_2 = engine.execute(top5_2)
+    data_2 = pd.DataFrame(results_2)
+
+    l3 = sectors[2]
+    top5_3 = f"""
+    SELECT Symbol
+    FROM stock_industry_marketcap
+    WHERE `GICS Sector` = '{l3}'
+    ORDER BY Market_Cap DESC
+    LIMIT 5
+    """
+    results_3 = engine.execute(top5_3)
+    data_3 = pd.DataFrame(results_3)
+
+    clean_symbols = pd.concat([data_1, data_2, data_3], axis="rows", join="inner")
+    symbols = clean_symbols[0].tolist()
+    return symbols

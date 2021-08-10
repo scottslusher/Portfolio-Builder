@@ -1,4 +1,5 @@
 import numpy as np
+from numpy import log, exp, sqrt
 # import yahoo finance to pull stock and crypto data from
 import yfinance as yf
 import pandas as pd
@@ -73,7 +74,10 @@ def download_data(stocks):
         proxy = None
     )['Close']
 
-    return pd.DataFrame(stock_data)
+    data_cleaned = stock_data.fillna(stock_data.rolling(6, min_periods=1).mean())
+    data_cleaned = data_cleaned.dropna()
+
+    return pd.DataFrame(data_cleaned)
 
 # define a function show_data()
 def show_data(data):
@@ -175,6 +179,9 @@ def optimize_portfolio(stocks, weights, returns):
                 constraints=cons
                 )
 
+def print_optimum(optimum, returns):
+    print(f"Optimal portfolio: {optimum['x']}")
+    print(f"Expected Return, volatility and Sharpe Ratio: {statistics(optimum['x'], returns)}")
 
 # print the Stocks and Weights into a manageable pd.DataFrame to be easier to read and export
 def print_optimal_portfolio_dataframe(stocks, optimum, returns):
@@ -192,20 +199,9 @@ def print_optimal_portfolio_dataframe(stocks, optimum, returns):
     # the weights are ordered in the same order as the stocks from above so they will print side by side
     print(optimal_portfolio_weights_df)
 
-def show_portfolios(returns, volatilities):
-    plt.figure(figsize=(20,10))
-    plt.style.use(['dark_background'])
-    plt.scatter(volatilities, returns, c=returns/volatilities, marker='o')
-    plt.grid(True)
-    plt.xlabel('Expected Volatility')
-    plt.ylabel('Expected Returns')
-    plt.colorbar(label='Sharpe Ratio')
-    plt.show()
-
-
 def show_optimal_portfolio(opt, rets, portfolio_rets, portfolio_vols, sectors_selected):
     plt.figure(figsize=(20,10))
-    plt.style.use(['dark_background'])
+    # plt.style.use(['dark_background'])
     plt.scatter(portfolio_vols, portfolio_rets, c=portfolio_rets/portfolio_vols, marker='o')
     plt.grid(True)
     plt.rcParams.update({'font.size': 18})
@@ -263,7 +259,7 @@ def monte_carlo(stocks, dataset, optimum, investment):
     MC_Stocks.calc_cumulative_return()
 
     mc_stock_tbl = MC_Stocks.summarize_cumulative_return()
-    
+    # print(optimal_portfolio_weights_df)
     print(mc_stock_tbl)
 
     mc_ci_lower = round(mc_stock_tbl[8]*investment,2)

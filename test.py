@@ -24,7 +24,8 @@ from workflow.Markowitz_Model import (
     mc_line_plot,
     mc_dist_plot,
     show_portfolios,
-    show_mean_variance
+    show_mean_variance,
+    print_optimum
 )
 
 from app import (
@@ -72,6 +73,8 @@ def build_portfolio():
     # show_optimal_portfolio(), monte_carlo()
     optimum = optimize_portfolio(stocks, portfolio_weights, log_daily_returns)
 
+    # show_mean_variance(log_daily_returns, optimum)
+    # print_optimum(optimum, log_daily_returns)
     # this function prints the metrics and weights of the portfolio for better clarity
     print_optimal_portfolio_dataframe(stocks, optimum, log_daily_returns)
 

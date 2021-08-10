@@ -136,7 +136,7 @@ class MCSimulation:
             
         # Use Pandas plot function to plot the return data
         plot_title = f"{self.nSim} Simulations of Cumulative Portfolio Return Trajectories Over the Next {self.nTrading / 252} Years."
-        return self.simulated_return.plot(figsize=(20,10),legend=None,title=plot_title)
+        return self.simulated_return.plot(figsize=(20,10),legend=None,title=plot_title, xlabel='# of Trading Days', ylabel='Rate of Return' )
     
     def plot_distribution(self):
         """
@@ -151,7 +151,7 @@ class MCSimulation:
         # Use the `plot` function to create a probability distribution histogram of simulated ending prices
         # with markings for a 95% confidence interval
         plot_title = f"Distribution of Final Cumulative Returns Across All {self.nSim} Simulations"
-        plt = self.simulated_return.iloc[-1, :].plot(figsize=(20,10), kind='hist', bins=10,density=True,title=plot_title)
+        plt = self.simulated_return.iloc[-1, :].plot(figsize=(20,10), kind='hist', bins=10,density=True,title=plot_title, xlabel='Rate of Return', ylabel='Frequency')
         plt.axvline(self.confidence_interval.iloc[0], color='r')
         plt.axvline(self.confidence_interval.iloc[1], color='r')
         return plt

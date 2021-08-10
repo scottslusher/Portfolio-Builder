@@ -1,5 +1,6 @@
 import numpy as np
 import questionary
+from sqlalchemy import log
 # import yahoo finance to pull stock and crypto data from
 import yfinance as yf
 import pandas as pd
@@ -21,7 +22,9 @@ from workflow.Markowitz_Model import (
     clean_df_monte_carlo,
     monte_carlo,
     mc_line_plot,
-    mc_dist_plot
+    mc_dist_plot,
+    show_portfolios,
+    show_mean_variance
 )
 
 from app import (
@@ -54,6 +57,8 @@ def build_portfolio():
     # calculate_log_return() is used to NORMALIZE the dataset
     log_daily_returns = calculate_log_return(dataset)
 
+   
+
     # generate_portfolio() takes the log_daily_returns variable created by the calculate_log_return() function
     # from this function it will create the following lists as variables to be passed to further functions:
     # Variables : portfolio_weights, means, risk
@@ -81,7 +86,7 @@ def build_portfolio():
     MC_Stocks = monte_carlo(stocks, clean_df_mc, optimum, investment)
 
     # this function graphs the simulation to generate the optimum weights and places a red star on the weights selected
-    print(show_optimal_portfolio(stocks, optimum, log_daily_returns, means, risks, sectors_selected))
+    print(show_optimal_portfolio(optimum, log_daily_returns, means, risks, sectors_selected))
 
     # this function returns a graph of historical price action based on 10 years of data
     print(show_data(dataset))

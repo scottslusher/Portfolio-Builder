@@ -34,11 +34,11 @@ end_date = today.strftime('%Y-%m-%d')
 ### IF WE ARE GOING TO ALLOW CRYPTO THEN WE NEED TO UPDATE THE TRADING DAYS TO 365 AND RERUN THE CALCS
 
 # number of trading days in a year (stocks only)
-num_tradings_days_stocks = 252
-num_tradings_days_crypto = 365
+num_tradings_days = 252
+
 
 # set variable of amount of random w (different portfolios) we want to create
-num_portfolios = 20000
+num_portfolios = 40000
 
 # define a function download_data()
 def download_data(stocks):
@@ -98,30 +98,47 @@ def show_statistics(returns):
 
 #
 def show_mean_variance(returns, weights):
-    portfolio_return = np.sum(returns.mean()*weights) * num_tradings_days_stocks
-    portfolio_volatility = np.sqrt(np.dot(weights.T, np.dot(returns.cov()*num_tradings_days_stocks, weights)))
+    portfolio_return = np.sum(returns.mean()*weights) * num_tradings_days
+    portfolio_volatility = np.sqrt(np.dot(weights.T, np.dot(returns.cov()*num_tradings_days, weights)))
     print(f"Expected portfolio mean (return): {portfolio_return}")
-    print(f"Expected portfolio volatilit (standard deviation): {portfolio_volatility}")
+    print(f"Expected portfolio volatility (standard deviation): {portfolio_volatility}")
 
 
 def generate_portfolios(stocks, returns):
+    print("\n...................................**Efficient Frontier**...................................\n")
+    print("")
+    print("In modern portfolio theory, the efficient frontier is an investment portfolio which occupies\n")
+    print("the 'efficient' parts of the risk-return spectrum. Formally, it is the set of portfoliios which\n")
+    print("satisfy the condition that no other portfolio exists with a higher expected return but with the\n")
+    print("                             same standard deviation of return\n")
+    print("")
+    print("..............................................................................................\n")
+    print("")
+    print("In our model we are using the Efficient Frontier to generate the optimal weights for our portfolio's\n")
+    print("capital allocation. The weights generated here will then be passed to our Monte Carlo Simulation so\n")
+    print(f"we can determine the range of our portfolio with a 95 % confidence level to further illustrate our\n")
+    print("                                          expected ROI.")
+    print("")
+    print("")
     portfolio_means = []
     portfolio_risks = []
     portfolio_weights = []
-
+    
     for _ in range(num_portfolios):
-        # w = np.random.random(len(stocks))
+        if _ % 4000 == 0:
+            print(f"Running Modern Portfolio Theory simulation... {round((_ / num_portfolios) * 100,0)}% completed.")
         w = np.random.random(len(stocks))
         w /= np.sum(w)
         portfolio_weights.append(w)
-        portfolio_means.append(np.sum(returns.mean() * w) * num_tradings_days_stocks)
-        portfolio_risks.append(np.sqrt(np.dot(w.T, np.dot(returns.cov() * num_tradings_days_stocks, w))))
+        portfolio_means.append(np.sum(returns.mean() * w) * num_tradings_days)
+        portfolio_risks.append(np.sqrt(np.dot(w.T, np.dot(returns.cov() * num_tradings_days, w))))
     
     return np.array(portfolio_weights), np.array(portfolio_means), np.array(portfolio_risks)
 
 
 def show_portfolios(returns, volatilities):
     plt.figure(figsize=(20,10))
+    plt.style.use(['dark_background'])
     plt.scatter(volatilities, returns, c=returns/volatilities, marker='o')
     plt.grid(True)
     plt.xlabel('Expected Volatility')
@@ -130,8 +147,8 @@ def show_portfolios(returns, volatilities):
     plt.show()
 
 def statistics(weights, returns):
-    portfolio_return = np.sum(returns.mean() * weights) * num_tradings_days_stocks
-    portfolio_volatility = np.sqrt(np.dot(weights.T, np.dot(returns.cov() * num_tradings_days_stocks, weights)))
+    portfolio_return = np.sum(returns.mean() * weights) * num_tradings_days
+    portfolio_volatility = np.sqrt(np.dot(weights.T, np.dot(returns.cov() * num_tradings_days, weights)))
 
     return np.array([portfolio_return, portfolio_volatility, portfolio_return/portfolio_volatility])
 
@@ -168,15 +185,25 @@ def print_optimal_portfolio_dataframe(stocks, optimum, returns):
     
     # create another dataframe that holds the metrics we are tracking for our portfolio
     headers = ['Expected Returns', 'Expected Volatility', 'Expected Sharpe Ratio']
-    stats = statistics(optimum['x'].round(3), returns)
+    stats = statistics(optimum['x'], returns)
     metrics = pd.DataFrame({"Metrics": stats}, index=headers)
     
     print(metrics)
     # the weights are ordered in the same order as the stocks from above so they will print side by side
     print(optimal_portfolio_weights_df)
 
+def show_portfolios(returns, volatilities):
+    plt.figure(figsize=(20,10))
+    plt.style.use(['dark_background'])
+    plt.scatter(volatilities, returns, c=returns/volatilities, marker='o')
+    plt.grid(True)
+    plt.xlabel('Expected Volatility')
+    plt.ylabel('Expected Returns')
+    plt.colorbar(label='Sharpe Ratio')
+    plt.show()
 
-def show_optimal_portfolio(stocks, opt, rets, portfolio_rets, portfolio_vols, sectors_selected):
+
+def show_optimal_portfolio(opt, rets, portfolio_rets, portfolio_vols, sectors_selected):
     plt.figure(figsize=(20,10))
     plt.style.use(['dark_background'])
     plt.scatter(portfolio_vols, portfolio_rets, c=portfolio_rets/portfolio_vols, marker='o')
@@ -187,7 +214,7 @@ def show_optimal_portfolio(stocks, opt, rets, portfolio_rets, portfolio_vols, se
     plt.ylabel("Expected Return")
     plt.colorbar(label='Sharpe Ratio')
     plt.plot(statistics(opt['x'], rets)[1], statistics(opt['x'], rets)[0], 'r*', markersize=20.0)
-
+    
 
 def clean_df_monte_carlo(dataset, daily_returns):
     # bring in dataset and add multiindex column name 'close'
@@ -210,7 +237,13 @@ def clean_df_monte_carlo(dataset, daily_returns):
 
 
 def monte_carlo(stocks, dataset, optimum, investment):
-    num_trading_days = 252
+    print("\n...................................**Monte Carlo Simulation**...................................\n")
+    print("A Monte Carlo simulation is a model used to predict the porbability of different outcomes when the\n")
+    print("                         intervention of random variables is present.\n")
+    print("\n")
+    print("\n")
+
+    num_trading_days=252
     # Configure the Monte Carlo simulation to forecast 30 years cumulative returns
     # The weights should be split 40% to AGG and 60% to SPY.
     # Run 500 samples.

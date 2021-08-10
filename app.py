@@ -60,7 +60,7 @@ def sector_interest(sectors_1, sectors_2, sectors_3):
     print("Based on the three sectors you choose, the program will calculate the optimal portoflio\n")
     print("of stocks within the three sectors including weights of each. After optimal portfolio is\n")
     print("calculated, data points for rolling 1-year, 3-year, 5-year and 10-year returns as well\n")
-    print("as expected returns, volatility and sharpe ratio's.")
+    print("              as expected returns, volatility and sharpe ratio's.")
 
     print("\n.......................................................................................\n")
     # Using questionary, select 1st sector

@@ -24,30 +24,30 @@ from workflow.Markowitz_Model import (
     mc_dist_plot
 )
 
-from app import (
+from app_copy import (
     sectors,
     sector_interest,
     investment_question,
-    stock_generator
+    stock_generator,
+    clean_stock_list
 )
 
 def build_portfolio():
     sectors_1, sectors_2, sectors_3=sectors()
 
-    sectors = sector_interest(sectors_1, sectors_2, sectors_3)
-
-    stocks = stock_generator(sectors)
-
+    sectors_selected = sector_interest(sectors_1, sectors_2, sectors_3)
     # value as initial investment
     # this is a parameter passed from questionary
     investment = investment_question()
 
     # these are variables selected by user and passed to the "download_data()" function
-    # stocks  = ['AAPL', 'AMZN', 'GOOG', 'TSLA'] #stock_generator(sectors_1, sectors_2, sectors_3)
+    stocks = stock_generator(sectors_selected)
+
+    clean_stocks = clean_stock_list(stocks)
 
     # download_data() returns a dataframe called "dataset" that will be passed to the following functions:
     # calculate_log_return(), show_data(), calculate_return(), clean_df_monte_carlo()
-    dataset = download_data(stocks)
+    dataset = download_data(clean_stocks)
 
     # calculate_log_return() takes the dataset variable and creates the log returns to the following functions:
     # generate_portfolio(), optimize_portfolio(), print_optimal_portfolio_dataframe(), show_optimal_portfolio()

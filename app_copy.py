@@ -17,13 +17,21 @@ import datetime as dt
 from datetime import date
 # from MCForecastTools import MCSimulation
 
+# importing sector lists of stocks from 'sector_stock_lists' folder
+# from sector_stock_lists.industrials_list import top_5_industrial_stocks_by_marketcap
+
+# def sector_return_1_rolling_year ################################################
+
 def stock_generator(sectors):
     database_connection_string = 'sqlite:///stock_industry_top5.db'
     engine = sql.create_engine(database_connection_string, echo=True)
-    stocks_df = pd.read_csv(Path('stock_industry_marketcap.csv'))
-    stocks_df.to_sql('stock_industry_marketcap', engine, index=False, if_exists='replace')
-    sql_stock_df = pd.read_sql_table('stock_industry_marketcap', con=engine)
-    stocks = []
+    # stocks_df = pd.read_csv(Path('resources/stock_industry_marketcap.csv')).sort_values("Market_Cap", ascending=False)
+    # stocks_df.to_sql('stocks_by_marketcap', engine, index=False, if_exists='replace')
+    sql_stock_df = pd.read_sql_table('stock_by_marketcap', con=engine)
+    # stocks = []
+
+    sectors = sql_stock_df['Symbol']
+
     for x in sectors:
         top_5_stocks = f"""
         SELECT Symbol
@@ -33,11 +41,17 @@ def stock_generator(sectors):
         LIMIT 5
         """
         results = engine.execute(top_5_stocks)
-        data = pd.DataFrame(data=results)
-        stocks.append(data)
+        stocks.append(list(results))
+
     return stocks
 
-
+def clean_stock_list(stocks):
+    clean_stocks = []
+    for ch in ['(',',)']:
+        if ch in stocks:
+            stocks = stocks.replace(ch,'')
+            clean_stocks.append(stocks)
+    return clean_stocks
 
 
 
@@ -67,8 +81,10 @@ def sector_interest(sectors_1, sectors_2, sectors_3):
     sectors_1 = questionary.select("What is the 1st sector your interested in?", choices=sectors_1).ask()
     sectors_2 = questionary.select("What is the 2nd sector your interested in?", choices=sectors_2).ask()
     sectors_3 = questionary.select("What is the 3rd sector your interested in?", choices=sectors_3).ask()
-    sectors = np.array([sectors_1, sectors_2, sectors_3])
-    return sectors
+    
+    print("The following stocks are the top 5 stocks by marketcap in each sector")
+    sectors_selected = np.array([sectors_1, sectors_2, sectors_3])
+    return sectors_selected
 
 def investment_question():
     investment = questionary.text("How much money would you like to invest?").ask()

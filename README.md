@@ -98,7 +98,7 @@ The Monte Carlo program will run a one year projected simulation of the chosen s
 
 ![monte_carlo_example.png](Images/monte_carlo_example.png)
 
-**Here is an example, based on the Monte Carlo Simulation, the distribution of all the Final Cumulative Returns would look like across the 500 recorded simulations:**
+**Here is an example, based on the Monte Carlo Simulation, the distribution of all the final cumulative returns would look like across the 500 recorded simulations:**
 
 ![monte_carlo_distribution_example.png](Images/monte_carlo_distribution_example.png)
 ---

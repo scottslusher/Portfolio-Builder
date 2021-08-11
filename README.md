@@ -82,7 +82,7 @@ The original assumptions made by Markowtiz were as follows:
 
 4. An investor either minimizes their risk for a given return or maximizes their portfolio return for a given level of risk.
 
-![efficient_portfolio](images/efficient_portfolio.png)
+![efficient_portfolio](Images/efficient_portfolio.png)
 
 The **Efficient Frontier** is a hyperbola representing portfolios with all different combinations of assets that result into efficient portfolios, meaning **with the lowest risk, given the same return and portfolios with the highest return given the same risk**. 
 

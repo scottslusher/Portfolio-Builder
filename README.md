@@ -63,7 +63,7 @@ The Historical Price Plot shows the last five years of stock prices of all 15 ch
 
 ---
 
-## Efficient Frontier
+## Efficient Frontier: Markowitz Model
     
 Markowitz model was introduced in 1952 by Harry Markowitz. It’s also known as the mean-variance model and it is a portfolio optimization model – it aims to create the most return-to-risk efficient portfolio by analyzing various portfolio combinations based on expected returns (mean) and standard deviations (variance) of the assets.
 
@@ -84,6 +84,10 @@ The **Efficient Frontier** is a hyperbola representing portfolios with all diffe
 ---
 
 ## Monte Carlo Simulation
+
+The Monte Carlo program will run a one year projected simulation of the chosen stocks based on their weights calculated as the optimal portfolio in the Markowtiz Model. The output of the Monte Carlo will show the user, within the 95% confidence interval, the likely return range. **For example, the user will see the following:**
+
+        There is a 95% chance that an initial inestment of $1000 in the portfolio over the next 1 year will end within a range of $(Lowest potential return) and $(Highest potential return). 
 
 
 ---

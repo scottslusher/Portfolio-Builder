@@ -1,4 +1,4 @@
-# Portfolio Builder
+# **Portfolio Builder**
 
 Our goal is to assist the user to choose the three market sectors of the S&P 500 and create a portfolio of stocks based on the sectors chosen. To provide the user with the best experience, our stock picker will pick the top five stocks by marketcap in each of the three sectors chosen to create the optimal portfolio.
 
@@ -6,7 +6,7 @@ Our goal is to assist the user to choose the three market sectors of the S&P 500
 
 ---
 
-## Overview of the S&P 500 Sectors
+## **Overview of the S&P 500 Sectors**
 
 The S&P sectors, or Global Industry Classification Standard (GICS), organizes companies based on their primary business activities. The order of the sectors below are based on size:
 
@@ -57,13 +57,18 @@ The S&P sectors, or Global Industry Classification Standard (GICS), organizes co
     Companies within the materials sector provide the raw material needed for other sectors to function. This includes the mining companies that provide gold, zinc, and copper, and forestry companies that provide wood. Companies that are not typically associated with materials but are in the sector include container and packaging companies such as the Intertape Polymer Group, a company that produces tape.
 
 ---
-## Historical Prices: 5 Year Data Price Trend
+
+## **Historical Prices: 5 Year Data Price Trend**
 
 The Historical Price Plot shows the last five years of stock prices of all 15 chosen stocks based on the sectors the user has chosen.
 
+**Here is an example of what the plot looks like:**
+
+![Example_Historical_Price.png](Images/Example_Historical_Price.png)
+
 ---
 
-## Efficient Frontier: Markowitz Model
+## **Efficient Frontier: Markowitz Model**
     
 Markowitz model was introduced in 1952 by Harry Markowitz. It’s also known as the mean-variance model and it is a portfolio optimization model – it aims to create the most return-to-risk efficient portfolio by analyzing various portfolio combinations based on expected returns (mean) and standard deviations (variance) of the assets.
 
@@ -83,17 +88,22 @@ The **Efficient Frontier** is a hyperbola representing portfolios with all diffe
 
 ---
 
-## Monte Carlo Simulation
+## **Monte Carlo Simulation**
 
 The Monte Carlo program will run a one year projected simulation of the chosen stocks based on their weights calculated as the optimal portfolio in the Markowtiz Model. The output of the Monte Carlo will show the user, within the 95% confidence interval, the likely return range. **For example, the user will see the following:**
 
         There is a 95% chance that an initial inestment of $1000 in the portfolio over the next 1 year will end within a range of $(Lowest potential return) and $(Highest potential return). 
 
+**Here is an example of what the Monte Carlo Simulation will look like:**
 
+![monte_carlo_example.png](Images/monte_carlo_example.png)
+
+**Here is an example, based on the Monte Carlo Simulation, the distribution of all the Final Cumulative Returns would look like across the 500 recorded simulations:**
+
+![monte_carlo_distribution_example.png](Images/monte_carlo_distribution_example.png)
 ---
 
-
-##  
+## 
 
 
 

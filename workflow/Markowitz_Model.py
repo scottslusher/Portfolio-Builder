@@ -79,30 +79,33 @@ def show_data(data):
     data.plot(figsize=(20,10), grid=True, xlabel='Date', ylabel="Stock Price", title=f"Historical Price from {start_date} through {end_date}")
     plt.show()
 
-# define return
+# Calculates the log returns to assist with creating the portfolio weights, average returns and volatility.
 def calculate_log_return(data):
     # NORMALIZATION - to measure all variables in comparable metric
     log_return = np.log(data/data.shift(1))
     # return [1:] takes out the null values from the first data point
     return log_return[1:]
 
+# Calculates the daily return from the data provided
 def calculate_return(data):
     daily_returns = data.pct_change()
     return daily_returns[1:]
 
-# define annual metrics
+# Define annual statistics
 def show_statistics(returns):
     print(returns.mean() * num_tradings_days)
     print(returns.cov() * num_tradings_days)
 
-#
+# Calculates the portfolio returns using the weights calculated in a previous function.
+# Calculates the portfolio volatility using the weights calculated in a previous function.
 def show_mean_variance(returns, weights):
     portfolio_return = np.sum(returns.mean()*weights) * num_tradings_days
     portfolio_volatility = np.sqrt(np.dot(weights.T, np.dot(returns.cov()*num_tradings_days, weights)))
     print(f"Expected portfolio mean (return): {portfolio_return}")
     print(f"Expected portfolio volatility (standard deviation): {portfolio_volatility}")
 
-
+# Explains what the Efficient Frontier and the model.
+# Inputs include the log daily returns and stock picks to output portfolio weights, means and risk.
 def generate_portfolios(stocks, returns):
     print("\n...................................**Efficient Frontier**...................................\n")
     print("")
@@ -134,7 +137,7 @@ def generate_portfolios(stocks, returns):
     
     return np.array(portfolio_weights), np.array(portfolio_means), np.array(portfolio_risks)
 
-
+# Prints out the Efficient Frontier plot
 def show_portfolios(returns, volatilities):
     plt.figure(figsize=(20,10))
     plt.style.use(['dark_background'])
@@ -145,6 +148,7 @@ def show_portfolios(returns, volatilities):
     plt.colorbar(label='Sharpe Ratio')
     plt.show()
 
+# Prints out the statistics of the portfolio
 def statistics(weights, returns):
     portfolio_return = np.sum(returns.mean() * weights) * num_tradings_days
     portfolio_volatility = np.sqrt(np.dot(weights.T, np.dot(returns.cov() * num_tradings_days, weights)))
@@ -174,6 +178,7 @@ def optimize_portfolio(stocks, weights, returns):
                 constraints=cons
                 )
 
+# Prints the optimal portfolio and retun volatility and sharpe ratios
 def print_optimum(optimum, returns):
     print(f"Optimal portfolio: {optimum['x']}")
     print(f"Expected Return, volatility and Sharpe Ratio: {statistics(optimum['x'], returns)}")
@@ -194,6 +199,7 @@ def print_optimal_portfolio_dataframe(stocks, optimum, returns):
     # the weights are ordered in the same order as the stocks from above so they will print side by side
     print(optimal_portfolio_weights_df)
 
+# Prints out the optimal portfolio plot in the efficient frontier.
 def show_optimal_portfolio(opt, rets, portfolio_rets, portfolio_vols, sectors_selected):
     plt.figure(figsize=(20,10))
     # plt.style.use(['dark_background'])
@@ -206,7 +212,7 @@ def show_optimal_portfolio(opt, rets, portfolio_rets, portfolio_vols, sectors_se
     plt.colorbar(label='Sharpe Ratio')
     plt.plot(statistics(opt['x'], rets)[1], statistics(opt['x'], rets)[0], 'r*', markersize=20.0)
     
-
+# Cleans the dataframe to use in the monte carlo simulation
 def clean_df_monte_carlo(dataset, daily_returns):
     # bring in dataset and add multiindex column name 'close'
     dataset.columns = pd.MultiIndex.from_product([dataset.columns, ['close']])
@@ -226,7 +232,7 @@ def clean_df_monte_carlo(dataset, daily_returns):
 
     return pd.DataFrame(joined_df_columns)
 
-
+# Runs the monte carlo
 def monte_carlo(stocks, dataset, optimum, investment):
     print("\n...................................**Monte Carlo Simulation**...................................\n")
     print("A Monte Carlo simulation is a model used to predict the porbability of different outcomes when the\n")

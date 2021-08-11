@@ -59,24 +59,37 @@ The S&P sectors, or Global Industry Classification Standard (GICS), organizes co
 ---
 
 ## Efficient Frontier
+    
+Markowitz model was introduced in 1952 by Harry Markowitz. It’s also known as the mean-variance model and it is a portfolio optimization model – it aims to create the most return-to-risk efficient portfolio by analyzing various portfolio combinations based on expected returns (mean) and standard deviations (variance) of the assets.
 
-In modern portfolio theory, the efficient frontier is an investment portfolio which occupies the 'efficient' parts of the risk-return spectrum. Formally, it is the set of portfoliios which satisfy the condition that no other portfolio exists with a higher expected return but with the same standard deviation of return.
+The original assumptions made by Markowtiz were as follows:
 
+1. The risk of the portfolio is based on its volatility (and covariance) of returns.
 
+2. Analysis is based on a single-period model of investment.
 
+3. An investor is rational, adverse to risk, and prefers to increase consumption. 
 
+4. An investor either minimizes their risk for a given return or maximizes their portfolio return for a given level of risk.
 
+![efficient_portfolio_1](images/efficient_portfolio_1.png)
 
-
-
-
-
-
-
-
-
-
-
+The **Efficient Frontier** is a hyperbola representing portfolios with all different combinations of assets that result into efficient portfolios, meaning **with the lowest risk, given the same return and portfolios with the highest return given the same risk**. 
 
 
-    https://corporatefinanceinstitute.com/resources/knowledge/finance/the-sp-sectors/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        Summary of Sectors: https://corporatefinanceinstitute.com/resources/knowledge/finance/the-sp-sectors/
+        Markowitz Model/Efficient Frontier: https://quantpedia.com/markowitz-model/

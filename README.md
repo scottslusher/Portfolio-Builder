@@ -57,6 +57,11 @@ The S&P sectors, or Global Industry Classification Standard (GICS), organizes co
     Companies within the materials sector provide the raw material needed for other sectors to function. This includes the mining companies that provide gold, zinc, and copper, and forestry companies that provide wood. Companies that are not typically associated with materials but are in the sector include container and packaging companies such as the Intertape Polymer Group, a company that produces tape.
 
 ---
+## Historical Prices: 5 Year Data Price Trend
+
+The Historical Price Plot shows the last five years of stock prices of all 15 chosen stocks based on the sectors the user has chosen.
+
+---
 
 ## Efficient Frontier
     
@@ -72,9 +77,20 @@ The original assumptions made by Markowtiz were as follows:
 
 4. An investor either minimizes their risk for a given return or maximizes their portfolio return for a given level of risk.
 
-![efficient_portfolio_1](images/efficient_portfolio_1.png)
+![efficient_portfolio](images/efficient_portfolio.png)
 
 The **Efficient Frontier** is a hyperbola representing portfolios with all different combinations of assets that result into efficient portfolios, meaning **with the lowest risk, given the same return and portfolios with the highest return given the same risk**. 
+
+---
+
+## Monte Carlo Simulation
+
+
+---
+
+
+##  
+
 
 
 

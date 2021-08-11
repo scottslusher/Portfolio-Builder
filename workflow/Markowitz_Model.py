@@ -28,7 +28,7 @@ def sub_years(today_date, years):
 # # historical data - define START and END dates
 # # to calculate the start_date we must use the sub_years function defined above to get today's date and subtract 10 years
 # # then using the .strftime('%Y-%m-%d') we format it so that it can be passed to yahoo finance
-start_date = sub_years(today, 5).strftime('%Y-%m-%d')
+start_date = sub_years(today, 10).strftime('%Y-%m-%d')
 # # for the end_date we just have to reformat the today variable with the .strftime('%Y-%m-%d') we format it so that it can be passed to yahoo finance 
 end_date = today.strftime('%Y-%m-%d')
 
@@ -50,7 +50,7 @@ def download_data(stocks):
         # use "period" instead of start/end
         # valid periods: 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max
         # (optional, default is "1mo")
-        period = "5y",
+        period = "10y",
 
         # fetch data by interval (including intraday if period < 60 days)
         # valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo

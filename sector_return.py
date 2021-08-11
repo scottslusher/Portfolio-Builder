@@ -89,7 +89,10 @@ def sector_return():
 
     print(annual_return_df)
 
-    return sp500_sectors
+    sector_list = annual_return_df.reset_index()
+    sector_list = sector_list['Sectors'].to_list()
+
+    return sector_list
 
 
 

@@ -53,7 +53,7 @@ def sectors():
 
 # Create a function called `sector_interest` that will be the application report.
 # This function will be called from the __main__ loop.
-def sector_interest(sectors_1, sectors_2, sectors_3):
+def sector_interest(sectors):
 
     # Print welcome message and short description of what the program will output.
     print("\n................**Welcome to the Sector Portfolio Builder!**................................\n")
@@ -64,11 +64,11 @@ def sector_interest(sectors_1, sectors_2, sectors_3):
 
     print("\n.......................................................................................\n")
     # Using questionary, select 1st sector
-    sectors_1 = questionary.select("What is the 1st sector your interested in?", choices=sectors_1).ask()
-    sectors_2 = questionary.select("What is the 2nd sector your interested in?", choices=sectors_2).ask()
-    sectors_3 = questionary.select("What is the 3rd sector your interested in?", choices=sectors_3).ask()
-    sectors = np.array([sectors_1, sectors_2, sectors_3])
-    return sectors
+    sectors_1 = questionary.select("What is the 1st sector your interested in?", choices=sectors).ask()
+    sectors_2 = questionary.select("What is the 2nd sector your interested in?", choices=sectors).ask()
+    sectors_3 = questionary.select("What is the 3rd sector your interested in?", choices=sectors).ask()
+    sectors_selected = np.array([sectors_1, sectors_2, sectors_3])
+    return sectors_selected
 
 def investment_question():
     investment = questionary.text("How much money would you like to invest?").ask()

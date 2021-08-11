@@ -29,7 +29,7 @@ from workflow.Markowitz_Model import (
 )
 
 from app import (
-    sectors,
+    # sectors,
     sector_interest,
     investment_question,
     generate_tickers
@@ -40,11 +40,11 @@ from sector_return import (
 )
 
 def build_portfolio():
-    sector_return()
+    sectors = sector_return()
 
-    sectors_1, sectors_2, sectors_3=sectors()
+    # sectors_1, sectors_2, sectors_3=sectors()
 
-    sectors_selected = sector_interest(sectors_1, sectors_2, sectors_3)
+    sectors_selected = sector_interest(sectors)
 
     stocks = generate_tickers(sectors_selected)
 

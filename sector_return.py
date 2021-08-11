@@ -89,6 +89,8 @@ def sector_return():
 
     print(annual_return_df)
 
+    return sp500_sectors
+
 
 
 if __name__ == "__main__":

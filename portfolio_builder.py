@@ -64,8 +64,6 @@ def build_portfolio():
     # calculate_log_return() is used to NORMALIZE the dataset
     log_daily_returns = calculate_log_return(dataset)
 
-   
-
     # generate_portfolio() takes the log_daily_returns variable created by the calculate_log_return() function
     # from this function it will create the following lists as variables to be passed to further functions:
     # Variables : portfolio_weights, means, risk

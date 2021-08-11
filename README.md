@@ -92,7 +92,7 @@ The **Efficient Frontier** is a hyperbola representing portfolios with all diffe
 
 The Monte Carlo program will run a one year projected simulation of the chosen stocks based on their weights calculated as the optimal portfolio in the Markowtiz Model. The output of the Monte Carlo will show the user, within the 95% confidence interval, the likely return range. **For example, the user will see the following:**
 
-        There is a 95% chance that an initial inestment of $1000 in the portfolio over the next 1 year will end within a range of $(Lowest potential return) and $(Highest potential return). 
+        There is a 95% chance that an initial investment of $1000 in the portfolio over the next 1 year will end within a range of $(Lowest potential return) and $(Highest potential return). 
 
 **Here is an example of what the Monte Carlo Simulation will look like:**
 

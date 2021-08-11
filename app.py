@@ -55,14 +55,14 @@ def sectors():
 # This function will be called from the __main__ loop.
 def sector_interest(sectors):
 
-    # Print welcome message and short description of what the program will output.
-    print("\n................**Welcome to the Sector Portfolio Builder!**................................\n")
-    print("Based on the three sectors you choose, the program will calculate the optimal portoflio\n")
-    print("of stocks within the three sectors including weights of each. After optimal portfolio is\n")
-    print("calculated, data points for rolling 1-year, 3-year, 5-year and 10-year returns as well\n")
-    print("              as expected returns, volatility and sharpe ratio's.")
+    # # Print welcome message and short description of what the program will output.
+    # print("\n................**Welcome to the Sector Portfolio Builder!**................................\n")
+    # print("Based on the three sectors you choose, the program will calculate the optimal portoflio\n")
+    # print("of stocks within the three sectors including weights of each. After optimal portfolio is\n")
+    # print("calculated, data points for rolling 1-year, 3-year, 5-year and 10-year returns as well\n")
+    # print("              as expected returns, volatility and sharpe ratio's.")
 
-    print("\n.......................................................................................\n")
+    # print("\n.......................................................................................\n")
     # Using questionary, select 1st sector
     sectors_1 = questionary.select("What is the 1st sector your interested in?", choices=sectors).ask()
     sectors_2 = questionary.select("What is the 2nd sector your interested in?", choices=sectors).ask()
@@ -72,9 +72,9 @@ def sector_interest(sectors):
 
 def investment_question():
     investment = questionary.text("How much money would you like to invest?").ask()
-    print("\n.......................................................................................\n")
+    #print("\n.......................................................................................\n")
 
-    print(".........................pulling data...........please wait..............................\n")
+    #print(".........................pulling data...........please wait..............................\n")
     return int(investment)
 
 def generate_tickers(sectors):

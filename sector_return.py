@@ -87,8 +87,23 @@ def sector_return():
     annual_return_df.set_index('Sectors', inplace=True)
     annual_return_df = annual_return_df.sort_values(by='Annual_Return', ascending=False)
 
+        # Print welcome message and short description of what the program will output.
+    print("\n................**Welcome to the Sector Portfolio Builder!**................................\n")
+    print("")
+    print("Based on the three sectors you choose, the program will calculate the optimal portoflio\n")
+    print("of stocks within the three sectors including weights of each. After optimal portfolio is\n")
+    print("calculated, data points for a rolling 1-year returns as well as expected retruns, volatility\n")
+    print("                               and sharpe ratio's.")
+    print("")
+    print("\n.......................................................................................\n")
+    print("")
+    print("Displayed are the last 12 months of returns per sector. Each sector represents the top 5 companies\n")
+    print("                        by Market Cap from the S&P 500.")
+    print("")
+    print("")
     print(annual_return_df)
-
+    print("")
+    print("")
     sector_list = annual_return_df.reset_index()
     sector_list = sector_list['Sectors'].to_list()
 

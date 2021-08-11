@@ -35,7 +35,13 @@ from app import (
     generate_tickers
 )
 
+from sector_return import (
+    sector_return
+)
+
 def build_portfolio():
+    sector_return()
+
     sectors_1, sectors_2, sectors_3=sectors()
 
     sectors_selected = sector_interest(sectors_1, sectors_2, sectors_3)

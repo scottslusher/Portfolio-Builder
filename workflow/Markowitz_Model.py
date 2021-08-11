@@ -9,11 +9,7 @@ import scipy.optimize as optimization
 import datetime as dt
 from datetime import date
 from workflow.MCForecastTools import MCSimulation
-################################################################################################################
-# MARKOWITZ MODEL:
-# stocks = ['AAPL', 'AMZN', 'GOOG', 'TSLA']
-# we want the user to focus on the assets they are wanting to analyze and not the amount of data the program is analyzing
-# so in order to get the most relevant information we create a dynamic date range with a rolling 10 year window
+
 # first we create a variable today and set it equal to the datetime libraries date.today() 
 today = date.today()
 
@@ -29,10 +25,9 @@ def sub_years(today_date, years):
 # # to calculate the start_date we must use the sub_years function defined above to get today's date and subtract 10 years
 # # then using the .strftime('%Y-%m-%d') we format it so that it can be passed to yahoo finance
 start_date = sub_years(today, 10).strftime('%Y-%m-%d')
+
 # # for the end_date we just have to reformat the today variable with the .strftime('%Y-%m-%d') we format it so that it can be passed to yahoo finance 
 end_date = today.strftime('%Y-%m-%d')
-
-### IF WE ARE GOING TO ALLOW CRYPTO THEN WE NEED TO UPDATE THE TRADING DAYS TO 365 AND RERUN THE CALCS
 
 # number of trading days in a year (stocks only)
 num_tradings_days = 252

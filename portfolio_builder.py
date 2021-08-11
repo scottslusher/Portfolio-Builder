@@ -1,7 +1,7 @@
 import numpy as np
 import questionary
 from sqlalchemy import log
-# import yahoo finance to pull stock and crypto data from
+# import yahoo finance to pull stock data
 import yfinance as yf
 import pandas as pd
 import matplotlib.pyplot as plt

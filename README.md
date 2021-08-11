@@ -101,9 +101,72 @@ The Monte Carlo program will run a one year projected simulation of the chosen s
 **Here is an example, based on the Monte Carlo Simulation, the distribution of all the final cumulative returns would look like across the 500 recorded simulations:**
 
 ![monte_carlo_distribution_example.png](Images/monte_carlo_distribution_example.png)
+
 ---
 
-## 
+## **Technologies**
+
+The following will need to be installed in order to run the program:
+
+```python
+import numpy as np
+import questionary
+from sqlalchemy import log
+import yfinance as yf
+import pandas as pd
+import matplotlib.pyplot as plt
+import scipy.optimize as optimization
+import datetime as dt
+from datetime import date
+import pandas as pd
+import matplotlib.pyplot as plt
+import scipy.optimize as optimization
+import datetime as dt
+from datetime import date
+from workflow.MCForecastTools import MCSimulation
+```
+
+---
+
+## **What the Program actually does...**
+
+1. Get data from Wikipedia/Yahoo Finance! to create our master list and market cap of each.
+
+2. Put all data into CSV file and into a SQL, since it is easier to sort/slice by sector and organize by market cap.
+
+3. Send the sliced data to `yfinance` to get the 1 year annualized return.
+
+4. print 1 year return by sector to data frame and send the sectors to the list of questions.
+
+5. Ask's the user to select 3 sectors and input investment amount.
+
+6. Send the stocsk from teh selected sectors to `yfinance` to pull 10 years of data.
+
+7. Pass the data to the Markowitz Model to generate the weights, return, volatility, and sharpe ratios.
+
+8. Pass the weights into the Monte Carlo simulation.
+
+9. Run the Monte Carlo simulation to get the simulated range of returns. 
+
+---
+
+## **Contributors**
+
+This program is brought to you by Scott Slusher and Billy Bishop
+
+---
+
+## **License**
+
+Copyright (c) 2021 `scottslusher` & `billybishop21`
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+---
 
 
 
@@ -116,10 +179,3 @@ The Monte Carlo program will run a one year projected simulation of the chosen s
 
 
 
-
-
-
-
-
-        Summary of Sectors: https://corporatefinanceinstitute.com/resources/knowledge/finance/the-sp-sectors/
-        Markowitz Model/Efficient Frontier: https://quantpedia.com/markowitz-model/

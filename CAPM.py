@@ -109,19 +109,19 @@ class CAPM:
         # deg=3 cubic function to fit
         print(f"Beta from regression: {round(beta,4)}")
         # calculate the expected return according to the CAPM formula
-        # we are after annula return (this is why multiply by 12)
-        expected_return = risk_free_rate + beta * (self.data['market_returns'].mean() * months_in_year - risk_free_rate)
+        # we are after annual return (this is why multiply by 12)
+        expected_return = risk_free_rate + beta * (self.data['stock_returns'].mean() * months_in_year - risk_free_rate)
 
-        print(f"Expected return: {round(expected_return * 100,2)} %")
+        print(f"Expected Unweighted return: {round(expected_return * 100,2)} %")
         self.plot_regression(alpha, beta)
 
         
 
     def plot_regression(self, alpha, beta):
         fig, axis = plt.subplots(1, figsize=(20,10))
-        axis.scatter(self.data['market_returns'], self.data['stock_returns'], label='Data Points')
-        axis.plot(self.data['market_returns'], beta * self.data['market_returns'] + alpha, color='red', label='CAPM Line')
-        plt.title('Capital Asset Pricing Model - Finding Alpha and Beta')
+        axis.scatter(self.data['market_returns'], self.data['stock_returns'], label='Portfolio Data Points')
+        axis.plot(self.data['market_returns'], beta * self.data['market_returns'] + alpha, color='red', label='CAPM (S&P 500) Line')
+        plt.title('Capital Asset Pricing Model - Correlation between Overall Market (S&P500) and Our Portfolio')
         plt.xlabel('Market return $R_m$', fontsize=18)
         plt.ylabel('Stock return $R_a$')
         plt.text(0.08, 0.05, r'$R_a = \beta * R_m + \alpha $', fontsize=18)

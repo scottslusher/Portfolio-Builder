@@ -76,7 +76,7 @@ class CAPM:
         # remove NaN values
         self.data =  self.data[1:]
 
-        print(self.data)
+        # print(self.data)
         
     
     def calculate_beta(self):
@@ -86,7 +86,7 @@ class CAPM:
         covariance_matrix = np.cov(self.data['stock_returns'], self.data['market_returns'])
         # calculating beta according to the formula
         beta = covariance_matrix[0, 1] / covariance_matrix[1, 1]
-        print("Beta from formula: ", beta)
+        # print("Beta from formula: ", beta)
 
     def regression(self):
         # using linear regression to fit a line to the data
@@ -95,13 +95,15 @@ class CAPM:
         # deg=1 linear line
         # deg=2 quadratic function to fit 
         # deg=3 cubic function to fit
-        print("Beta from regression: ", beta)
+        print(f"Beta from regression: {round(beta,4)}")
         # calculate the expected return according to the CAPM formula
         # we are after annula return (this is why multiply by 12)
         expected_return = risk_free_rate + beta * (self.data['market_returns'].mean() * months_in_year - risk_free_rate)
 
-        print("Expected return: ", expected_return)
+        print(f"Expected return: {round(expected_return * 100,2)} %")
         self.plot_regression(alpha, beta)
+
+        
 
     def plot_regression(self, alpha, beta):
         fig, axis = plt.subplots(1, figsize=(20,10))

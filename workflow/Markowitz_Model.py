@@ -202,9 +202,10 @@ def print_optimal_portfolio_dataframe(stocks, optimum, returns):
     stats = statistics(optimum['x'], returns)
     metrics = pd.DataFrame({"Metrics": stats}, index=headers)
     
-    print(metrics)
+    # print(metrics)
     # the weights are ordered in the same order as the stocks from above so they will print side by side
-    print(optimal_portfolio_weights_df)
+    # print(optimal_portfolio_weights_df)
+    return metrics, optimal_portfolio_weights_df
 
 # Prints out the optimal portfolio plot in the efficient frontier.
 def show_optimal_portfolio(opt, rets, portfolio_rets, portfolio_vols, sectors_selected):
@@ -268,16 +269,18 @@ def monte_carlo(stocks, dataset, optimum, investment):
 
     mc_stock_tbl = MC_Stocks.summarize_cumulative_return()
     # print(optimal_portfolio_weights_df)
-    print(mc_stock_tbl)
+    # print(mc_stock_tbl)
 
     mc_ci_lower = round(mc_stock_tbl[8]*investment,2)
     mc_ci_upper = round(mc_stock_tbl[9]*investment,2)
 
-    print(f"There is a 95% chance that an initial investment of ${investment} in the portfolio"
-      f" over the next {round(num_trading_days / 252)} years will end within in the range of"
-      f" ${mc_ci_lower} ({round(((mc_ci_lower - investment) / investment) * 100,2)}%) and ${mc_ci_upper} ({round(((mc_ci_upper - investment) / investment) * 100,2)}%).")
+    # investment_return = print(f"There is a 95% chance that an initial investment of ${investment} in the portfolio over the next {round(num_trading_days / 252)} years will end within in the range of ${mc_ci_lower} ({round(((mc_ci_lower - investment) / investment) * 100,2)}%) and ${mc_ci_upper} ({round(((mc_ci_upper - investment) / investment) * 100,2)}%).")
 
-    return MC_Stocks
+    return MC_Stocks, mc_stock_tbl, mc_ci_upper, mc_ci_lower
+
+def mc_invest_print(investment, mc_ci_upper, mc_ci_lower):
+    num_trading_days = 252
+    print(f"There is a 95% chance that an initial investment of ${investment} in the portfolio over the next {round(num_trading_days / 252)} years will end within in the range of ${mc_ci_lower} ({round(((mc_ci_lower - investment) / investment) * 100,2)}%) and ${mc_ci_upper} ({round(((mc_ci_upper - investment) / investment) * 100,2)}%).")
 
 
 # in order to get both plots to show we had to create a separate function for each plot

@@ -72,7 +72,7 @@ def sector_return():
 
         sector_pct_change['sector_pct_change'] = sector_pct_change.mean(axis=1)
         
-        sector_yearly_rtn = sector_pct_change['sector_pct_change'].sum()
+        sector_yearly_rtn = f"{round(sector_pct_change['sector_pct_change'].sum() * 100,2)} %"
 
         sector_returns.append(sector_yearly_rtn)
 

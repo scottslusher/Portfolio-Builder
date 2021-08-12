@@ -15,6 +15,7 @@ from workflow.Markowitz_Model import (
     download_data,
     calculate_log_return,
     generate_portfolios,
+    mc_invest_print,
     optimize_portfolio,
     print_optimal_portfolio_dataframe,
     show_optimal_portfolio,
@@ -25,7 +26,8 @@ from workflow.Markowitz_Model import (
     mc_line_plot,
     mc_dist_plot,
     start_end,
-    capm
+    capm,
+    mc_invest_print
 )
 
 from app import (
@@ -93,7 +95,7 @@ def build_portfolio():
     # show_mean_variance(log_daily_returns, optimum)
     # print_optimum(optimum, log_daily_returns)
     # this function prints the metrics and weights of the portfolio for better clarity
-    print_optimal_portfolio_dataframe(stocks, optimum, log_daily_returns)
+    metrics, optimal_portfolio_weights_df = print_optimal_portfolio_dataframe(stocks, optimum, log_daily_returns)
 
     # calculate_return() take the dataset as a parameter to calculate the standard returns to pass to the cleaned_df_monte_carlo()
     daily_return = calculate_return(dataset)
@@ -103,8 +105,20 @@ def build_portfolio():
 
     # monte_carlo() runs the simulation to project the 95% confidence level of the value of the portfolio based on weight allocations
     # it returns a variable of MC_Stocks to pass to the plot functions down range
-    MC_Stocks = monte_carlo(stocks, clean_df_mc, optimum, investment)
+    MC_Stocks, mc_stock_tbl, mc_ci_upper, mc_ci_lower = monte_carlo(stocks, clean_df_mc, optimum, investment)
 
+    # print all of the data to show metrics
+    print(capm(stocks, start_date, end_date))
+
+    print(metrics)
+
+    print(optimal_portfolio_weights_df)
+
+    print(mc_stock_tbl)
+
+    mc_invest_print(investment, mc_ci_upper, mc_ci_lower)
+
+    # illustrate data
     # this function graphs the simulation to generate the optimum weights and places a red star on the weights selected
     print(show_optimal_portfolio(optimum, log_daily_returns, means, risks, sectors_selected))
 
@@ -117,7 +131,17 @@ def build_portfolio():
     # this plots the 95% confidence levels of the monte_carlo()
     print(mc_dist_plot(MC_Stocks))
 
-    print(capm(stocks, start_date, end_date))
+    # print(capm(stocks, start_date, end_date))
+
+    # print(optimal_portfolio_weights_df)
+
+    # print(mc_stock_tbl)
+
+    # print(investment_return)
+
+    # print(metrics)
+
+
 
     run_again = "Would you like to build another portfolio?"
     continue_running = questionary.select(run_again, choices=['y', 'n']).ask()

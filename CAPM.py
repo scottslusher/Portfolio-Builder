@@ -63,11 +63,23 @@ class CAPM:
 
     def initialize(self):
         stocks_data = self.download_data()
+        # clean the data so that there are no null values
+        data_cleaned = stocks_data.fillna(stocks_data.rolling(6, min_periods=1).mean())
+        data_cleaned = data_cleaned.dropna()
         # we use monthly returns ('M') instead of daily returns
-        stocks_data = stocks_data.resample('M').last()
+        stocks_data = data_cleaned.resample('M').last()
+        # slice off the S&P500
+        sp500 = stocks_data.iloc[:,-1]
+        sp500 = pd.DataFrame(sp500)
+        sp500['market_adjclose'] = sp500.sum(axis=1)
+        # slice on the stocks
+        stocks = stocks_data.iloc[:,:-1]
+        stocks = pd.DataFrame(stocks)
+        # sum the value of all stocks to create a sector value to create the daily returns
+        stocks['sector_adjclose'] = stocks.sum(axis=1)
 
         # create a pandas dataframe to store stock information for analysis
-        self.data = pd.DataFrame({'stock_adjclose':stocks_data[self.stocks[0]], 'market_adjclose':stocks_data[self.stocks[1]]})
+        self.data = pd.DataFrame({'stock_adjclose':stocks['sector_adjclose'], 'market_adjclose':sp500['market_adjclose']})
 
         # add 2 columns for the s_returns and m_returns
         # logarithmic monthly returns

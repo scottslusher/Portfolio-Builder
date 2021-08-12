@@ -1,5 +1,6 @@
 import numpy as np
 from numpy import log, exp, sqrt
+from numpy.lib.shape_base import _expand_dims_dispatcher
 # import yahoo finance to pull stock and crypto data from
 import yfinance as yf
 import pandas as pd
@@ -9,25 +10,31 @@ import scipy.optimize as optimization
 import datetime as dt
 from datetime import date
 from workflow.MCForecastTools import MCSimulation
+from CAPM import CAPM
 
 # first we create a variable today and set it equal to the datetime libraries date.today() 
 today = date.today()
 
 # # once we have todays date we can run a formula to replace the year output from the date.today() with whatever timeframe we enter
 # # in our program we will set this input at 10 years
-def sub_years(today_date, years):
+def sub_years(years):
+    today = date.today()
     try:
-        return today_date.replace(year = today_date.year - years)
+        return today.replace(year = today.year - years)
     except ValueError:
-        return today_date + (date(today_date.year + years, 1, 1) - date(today_date.year, 1, 1))
+        return today + (date(today.year + years, 1, 1) - date(today.year, 1, 1))
 
-# # historical data - define START and END dates
-# # to calculate the start_date we must use the sub_years function defined above to get today's date and subtract 10 years
-# # then using the .strftime('%Y-%m-%d') we format it so that it can be passed to yahoo finance
-start_date = sub_years(today, 10).strftime('%Y-%m-%d')
 
-# # for the end_date we just have to reformat the today variable with the .strftime('%Y-%m-%d') we format it so that it can be passed to yahoo finance 
-end_date = today.strftime('%Y-%m-%d')
+def start_end(today):   
+    # # historical data - define START and END dates
+    # # to calculate the start_date we must use the sub_years function defined above to get today's date and subtract 10 years
+    # # then using the .strftime('%Y-%m-%d') we format it so that it can be passed to yahoo finance
+    start_date = sub_years(10).strftime('%Y-%m-%d')
+
+    # # for the end_date we just have to reformat the today variable with the .strftime('%Y-%m-%d') we format it so that it can be passed to yahoo finance 
+    end_date = today.strftime('%Y-%m-%d')
+
+    return start_date, end_date 
 
 # number of trading days in a year (stocks only)
 num_tradings_days = 252
@@ -75,7 +82,7 @@ def download_data(stocks):
     return pd.DataFrame(data_cleaned)
 
 # define a function show_data()
-def show_data(data):
+def show_data(data, start_date, end_date):
     data.plot(figsize=(20,10), grid=True, xlabel='Date', ylabel="Stock Price", title=f"Historical Price from {start_date} through {end_date}")
     plt.show()
 
@@ -289,3 +296,17 @@ def mc_line_plot(MC_Stocks):
 def mc_dist_plot(MC_Stocks):
     MC_Stocks.plot_distribution()
     plt.show()
+
+def capm(stocks, start_date, end_date):
+    stocks.append('^GSPC')
+    capm = CAPM(
+        stocks, 
+        start_date,
+        end_date
+        )
+
+    capm.initialize()
+
+    beta = capm.calculate_beta()
+    print(beta)
+    capm.regression()

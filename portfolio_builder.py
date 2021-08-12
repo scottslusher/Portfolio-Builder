@@ -9,6 +9,7 @@ import scipy.optimize as optimization
 # bringing in these libraries in order to use a dynamic date selection - see sub_years
 import datetime as dt
 from datetime import date
+from CAPM import CAPM
 from workflow.MCForecastTools import MCSimulation
 from workflow.Markowitz_Model import (
     download_data,
@@ -23,13 +24,11 @@ from workflow.Markowitz_Model import (
     monte_carlo,
     mc_line_plot,
     mc_dist_plot,
-    show_portfolios,
-    show_mean_variance,
-    print_optimum
+    start_end,
+    capm
 )
 
 from app import (
-    # sectors,
     sector_interest,
     investment_question,
     generate_tickers
@@ -39,7 +38,21 @@ from sector_return import (
     sector_return
 )
 
+
+
 def build_portfolio():
+    today = date.today()
+
+
+
+    start_date, end_date = start_end(today)
+
+    # market interest rate
+    risk_free_rate = 0.05
+
+    # we will consider monthly returns - and we want to calculate the annula return
+    months_in_year = 12
+
     sectors = sector_return()
 
     # sectors_1, sectors_2, sectors_3=sectors()
@@ -96,13 +109,15 @@ def build_portfolio():
     print(show_optimal_portfolio(optimum, log_daily_returns, means, risks, sectors_selected))
 
     # this function returns a graph of historical price action based on 10 years of data
-    print(show_data(dataset))
+    print(show_data(dataset, start_date, end_date))
 
     # this plots the monte_carlo() simulation
     print(mc_line_plot(MC_Stocks))
 
     # this plots the 95% confidence levels of the monte_carlo()
     print(mc_dist_plot(MC_Stocks))
+
+    print(capm(stocks, start_date, end_date))
 
     run_again = "Would you like to build another portfolio?"
     continue_running = questionary.select(run_again, choices=['y', 'n']).ask()

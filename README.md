@@ -58,6 +58,14 @@ The S&P sectors, or Global Industry Classification Standard (GICS), organizes co
 
 ---
 
+## Capital Asset Pricing Model (CAPM)
+
+
+
+![capm_model_example.png](Images/capm_model_example.png)
+
+---
+
 ## **Historical Prices: 5 Year Data Price Trend**
 
 The Historical Price Plot shows the last five years of stock prices of all 15 chosen stocks based on the sectors the user has chosen.

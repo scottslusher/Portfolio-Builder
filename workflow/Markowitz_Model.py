@@ -300,12 +300,14 @@ def mc_dist_plot(MC_Stocks):
     MC_Stocks.plot_distribution()
     plt.show()
 
-def capm(stocks, start_date, end_date):
+def capm(stocks, start_date, end_date, risk_free_rate, weights):
     stocks.append('^GSPC')
     capm = CAPM(
         stocks, 
         start_date,
-        end_date
+        end_date,
+        risk_free_rate,
+        weights
         )
 
     capm.initialize()

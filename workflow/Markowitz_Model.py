@@ -193,7 +193,12 @@ def print_optimum(optimum, returns):
 # print the Stocks and Weights into a manageable pd.DataFrame to be easier to read and export
 def print_optimal_portfolio_dataframe(stocks, optimum, returns):
     # first create a variable to be passed into the new dataframe
-    weights = optimum['x']
+    weights = []
+    for x in optimum['x']:
+        rounded_x = round(x,5)
+        rounded = rounded_x * 100
+        rounded = f"{rounded} %"
+        weights.append(rounded)
     # create the new dataframe with index = stocks
     optimal_portfolio_weights_df = pd.DataFrame({'Weights %': weights}, index=stocks)
     

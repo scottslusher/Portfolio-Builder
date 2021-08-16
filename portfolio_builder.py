@@ -9,7 +9,7 @@ import scipy.optimize as optimization
 # bringing in these libraries in order to use a dynamic date selection - see sub_years
 import datetime as dt
 from datetime import date
-from CAPM import CAPM
+from CAPM import (CAPM, risk_free_rate)
 from workflow.MCForecastTools import MCSimulation
 from workflow.Markowitz_Model import (
     download_data,
@@ -50,7 +50,7 @@ def build_portfolio():
     start_date, end_date = start_end(today)
 
     # market interest rate
-    risk_free_rate = 0.05
+    # risk_free_rate = 0.05
 
     # we will consider monthly returns - and we want to calculate the annula return
     months_in_year = 12
@@ -107,8 +107,11 @@ def build_portfolio():
     # it returns a variable of MC_Stocks to pass to the plot functions down range
     MC_Stocks, mc_stock_tbl, mc_ci_upper, mc_ci_lower = monte_carlo(stocks, clean_df_mc, optimum, investment)
 
+    risk_free_rate_1 = risk_free_rate()
+
+    weights = optimum['x']
     # print all of the data to show metrics
-    print(capm(stocks, start_date, end_date))
+    print(capm(stocks, start_date, end_date, risk_free_rate_1, weights))
 
     print(metrics)
 

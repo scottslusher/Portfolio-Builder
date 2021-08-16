@@ -4,6 +4,10 @@ import yfinance as yf
 import matplotlib.pyplot as plt
 from datetime import date
 import questionary
+import json
+import requests
+from dotenv import load_dotenv
+import os
 from sector_return import (
     sector_return
 )
@@ -38,17 +42,28 @@ def start_end(today):
     return start_date, end_date 
 
 # market interest rate
-risk_free_rate = 0.05
+# risk_free_rate = 0.05
+# Pulls latest daily 1 year T-Bill for risk free rate.
+def risk_free_rate():
+    load_dotenv()
+    quandl_api_key = os.getenv("QUANDL_API_KEY")
+    request_url = "https://www.quandl.com/api/v3/datasets/USTREASURY/BILLRATES.json?api_key=7m6u44gzq_Ah45R24EPE"
+    response = requests.get(request_url).json()
+    risk_free_rate = response["dataset"]["data"][0][10]
+
+    return risk_free_rate
 
 # we will consider monthly returns - and we want to calculate the annula return
 months_in_year = 12
 
 class CAPM:
-    def __init__(self, stocks, start_date, end_date):
+    def __init__(self, stocks, start_date, end_date, risk_free_rate, weights):
         self.data = None
         self.stocks = stocks
         self.start_date = start_date
         self.end_date = end_date
+        self.risk_free_rate = risk_free_rate
+        self.weights = weights
 
     def download_data(self):
         data = {}
@@ -71,19 +86,30 @@ class CAPM:
         # slice off the S&P500
         sp500 = stocks_data.iloc[:,-1]
         sp500 = pd.DataFrame(sp500)
-        sp500['market_adjclose'] = sp500.sum(axis=1)
+
+        sp500 = np.log(sp500 / sp500.shift(1))
+        
+
+        sp500['market_returns'] = sp500.sum(axis=1)
+
+        # sp500['market_adjclose'] = sp500.sum(axis=1)
+        
+        
         # slice on the stocks
         stocks = stocks_data.iloc[:,:-1]
+        stocks = np.log(stocks / stocks.shift(1))
+        stocks = stocks.mul(self.weights)
         stocks = pd.DataFrame(stocks)
-        # sum the value of all stocks to create a sector value to create the daily returns
-        stocks['sector_adjclose'] = stocks.sum(axis=1)
 
+        stocks['sector_return'] = stocks.sum(axis=1)
+
+        # sum the value of all stocks to create a sector value to create the daily returns
         # create a pandas dataframe to store stock information for analysis
-        self.data = pd.DataFrame({'stock_adjclose':stocks['sector_adjclose'], 'market_adjclose':sp500['market_adjclose']})
+        self.data = pd.DataFrame({'stock_weighted_return':stocks['sector_return'], 'market_returns':sp500['market_returns']})
 
         # add 2 columns for the s_returns and m_returns
         # logarithmic monthly returns
-        self.data[['stock_returns', 'market_returns']] = np.log(self.data[['stock_adjclose', 'market_adjclose']] / self.data[['stock_adjclose', 'market_adjclose']].shift(1))
+        # self.data[['stock_returns', 'market_returns']] = np.log(self.data[['stock_adjclose', 'market_adjclose']] / self.data[['stock_adjclose', 'market_adjclose']].shift(1))
 
         # remove NaN values
         self.data =  self.data[1:]
@@ -95,7 +121,7 @@ class CAPM:
         # covariance matrix: the diagonal items are teh variances
         # off diagonals are the covariances
         # the matrix is symmetric: cov[0,1] = cov[1,0]
-        covariance_matrix = np.cov(self.data['stock_returns'], self.data['market_returns'])
+        covariance_matrix = np.cov(self.data['stock_weighted_return'], self.data['market_returns'])
         # calculating beta according to the formula
         beta = covariance_matrix[0, 1] / covariance_matrix[1, 1]
         # print("Beta from formula: ", beta)
@@ -103,23 +129,23 @@ class CAPM:
     def regression(self):
         # using linear regression to fit a line to the data
         # [stock_returns, market_returns] - slope is the beta
-        beta, alpha = np.polyfit(self.data['market_returns'], self.data['stock_returns'], deg=1)
+        beta, alpha = np.polyfit(self.data['market_returns'], self.data['stock_weighted_return'], deg=1)
         # deg=1 linear line
         # deg=2 quadratic function to fit 
         # deg=3 cubic function to fit
         print(f"Beta from regression: {round(beta,4)}")
         # calculate the expected return according to the CAPM formula
         # we are after annual return (this is why multiply by 12)
-        expected_return = risk_free_rate + beta * (self.data['stock_returns'].mean() * months_in_year - risk_free_rate)
+        expected_return = self.risk_free_rate + beta * (self.data['market_returns'].mean() * months_in_year - self.risk_free_rate)
 
-        print(f"Expected Unweighted return: {round(expected_return * 100,2)} %")
+        print(f"Expected Weighted Return: {round(expected_return * 100,2)} %")
         self.plot_regression(alpha, beta)
 
         
 
     def plot_regression(self, alpha, beta):
         fig, axis = plt.subplots(1, figsize=(20,10))
-        axis.scatter(self.data['market_returns'], self.data['stock_returns'], label='Portfolio Data Points')
+        axis.scatter(self.data['market_returns'], self.data['stock_weighted_return'], label='Portfolio Data Points')
         axis.plot(self.data['market_returns'], beta * self.data['market_returns'] + alpha, color='red', label='CAPM (S&P 500) Line')
         plt.title('Capital Asset Pricing Model - Correlation between Overall Market (S&P500) and Our Portfolio')
         plt.xlabel('Market return $R_m$', fontsize=18)

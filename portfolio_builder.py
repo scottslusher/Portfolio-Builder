@@ -107,12 +107,13 @@ def build_portfolio():
     # it returns a variable of MC_Stocks to pass to the plot functions down range
     MC_Stocks, mc_stock_tbl, mc_ci_upper, mc_ci_lower = monte_carlo(stocks, clean_df_mc, optimum, investment)
 
-    risk_free_rate_1 = risk_free_rate()
 
-    weights = optimum['x']
-    # print all of the data to show metrics
-    print(capm(stocks, start_date, end_date, risk_free_rate_1, weights))
+    ## This is where we were attempting to add the CAPM but it needs more work before deployment.
+    # risk_free_rate_1 = risk_free_rate()
+    # weights = optimum['x']
+    # print(capm(stocks, start_date, end_date, risk_free_rate_1, weights))
 
+    # # print all of the data to show metrics
     print(metrics)
 
     print(optimal_portfolio_weights_df)
@@ -134,15 +135,7 @@ def build_portfolio():
     # this plots the 95% confidence levels of the monte_carlo()
     print(mc_dist_plot(MC_Stocks))
 
-    # print(capm(stocks, start_date, end_date))
 
-    # print(optimal_portfolio_weights_df)
-
-    # print(mc_stock_tbl)
-
-    # print(investment_return)
-
-    # print(metrics)
 
 
 

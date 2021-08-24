@@ -116,17 +116,16 @@ def show_mean_variance(returns, weights):
 def generate_portfolios(stocks, returns):
     print("\n...................................**Efficient Frontier**...................................\n")
     print("")
-    print("In modern portfolio theory, the efficient frontier is an investment portfolio which occupies\n")
-    print("the 'efficient' parts of the risk-return spectrum. Formally, it is the set of portfoliios which\n")
+    print("In Modern Portfolio Theory, the efficient frontier is an investment portfolio which occupies\n")
+    print("the 'efficient' parts of the risk-return spectrum. Formally, it is the set of portfolios which\n")
     print("satisfy the condition that no other portfolio exists with a higher expected return but with the\n")
-    print("                             same standard deviation of return\n")
+    print("                           same amount of risk (standard deviation).\n")
     print("")
     print("..............................................................................................\n")
     print("")
     print("In our model we are using the Efficient Frontier to generate the optimal weights for our portfolio's\n")
-    print("capital allocation. The weights generated here will then be passed to our Monte Carlo Simulation so\n")
-    print(f"we can determine the range of our portfolio with a 95 % confidence level to further illustrate our\n")
-    print("                                          expected ROI.")
+    print("capital allocation. The weights generated here will then be passed to our Monte Carlo Simulator so\n")
+    print(f"               we can determine a range of expected returns with 95% confidence.\n")
     print("")
     print("")
     portfolio_means = []
@@ -248,7 +247,7 @@ def clean_df_monte_carlo(dataset, daily_returns):
 # Runs the monte carlo
 def monte_carlo(stocks, dataset, optimum, investment):
     print("\n...................................**Monte Carlo Simulation**...................................\n")
-    print("A Monte Carlo simulation is a model used to predict the porbability of different outcomes when the\n")
+    print("A Monte Carlo simulation is a model used to predict the probability of different outcomes when the\n")
     print("                         intervention of random variables is present.\n")
     print("\n")
     print("\n")
@@ -285,7 +284,7 @@ def monte_carlo(stocks, dataset, optimum, investment):
 
 def mc_invest_print(investment, mc_ci_upper, mc_ci_lower):
     num_trading_days = 252
-    print(f"There is a 95% chance that an initial investment of ${investment} in the portfolio over the next {round(num_trading_days / 252)} years will end within in the range of ${mc_ci_lower} ({round(((mc_ci_lower - investment) / investment) * 100,2)}%) and ${mc_ci_upper} ({round(((mc_ci_upper - investment) / investment) * 100,2)}%).")
+    print(f"There is a 95% chance that an initial investment of ${investment} in the portfolio over the next {round(num_trading_days / 252)} year will be within a range of ${mc_ci_lower} ({round(((mc_ci_lower - investment) / investment) * 100,2)}%) and ${mc_ci_upper} ({round(((mc_ci_upper - investment) / investment) * 100,2)}%).")
 
 
 # in order to get both plots to show we had to create a separate function for each plot
